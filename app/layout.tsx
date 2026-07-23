@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(canonical),
     title: "Hypercourse — Make videos with rhythm, depth, and intent",
     description:
-      "Learn HyperFrames locally through 47 hands-on lessons, including HeyGen’s published release workflows through Day 17.",
+      "Go from zero to professional HyperFrames fluency through 50 hands-on local lessons, including HeyGen’s published release workflows through Day 17.",
     alternates: { canonical },
     icons: { icon: "/favicon.svg" },
     openGraph: {
@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
     twitter: {
       card: "summary_large_image",
       title: "Hypercourse — Make videos with rhythm, depth, and intent",
-      description: "Learn HyperFrames locally through 47 hands-on, current lessons.",
+      description: "Learn HyperFrames locally from first setup through a verified professional film.",
       images: [`${canonical}/og.png`],
     },
   };

@@ -4,7 +4,7 @@ Hypercourse is a self-contained, privacy-safe interactive course for learning pr
 
 **Idea → Do → Run → Reflect → Check**
 
-The opening course map lets learners start from composition or jump into one of six production formats. Inside each lesson, two context-specific controls update the visual frame and the editable CSS cell together.
+The opening course map starts with a zero-assumption local setup runway, then lets learners continue linearly or jump into a professional production format. Inside each lesson, one or two context-specific controls update the visual frame and the editable CSS cell together.
 
 No account, API key, analytics, database, or cloud service is used. Progress, reflections, quiz responses, and edited cells are stored in the browser's `localStorage` on the current device.
 

@@ -55,6 +55,10 @@ function microphoneIcon() {
   return `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"></rect><path d="M5 11a7 7 0 0 0 14 0M12 18v3M9 21h6"></path></svg>`;
 }
 
+function resetIcon() {
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8V4m0 0h4M5 4l3.2 3.2A7 7 0 1 1 5.5 14"></path></svg>`;
+}
+
 function renderCreatorBar() {
   return `<aside class="creator-bar" aria-label="Project attribution">
     <span>Independent learning project · Not affiliated with or endorsed by HeyGen</span>
@@ -225,9 +229,9 @@ function renderLanding() {
           <p class="landing-eyebrow">A local-first course for HyperFrames</p>
           <h1 class="landing-title">Make videos with rhythm, depth, and intent.</h1>
           <div class="landing-support">
-            <p class="landing-intro">Build one frame, run it, inspect the result, and keep going. Learn through launch films, product tours, data stories, and music-led edits.</p>
+            <p class="landing-intro">Start with an empty local folder. Finish with a professional film you can explain, inspect, and verify. No prior HyperFrames experience required.</p>
             <div class="landing-actions">
-              <button class="landing-primary" data-action="${hasProgress ? "continue" : "start"}">${hasProgress ? `Continue · ${done}/${allLessons.length}` : "Build your first frame"} <span aria-hidden="true">→</span></button>
+              <button class="landing-primary" data-action="${hasProgress ? "continue" : "start"}">${hasProgress ? `Continue · ${done}/${allLessons.length}` : "Start with setup"} <span aria-hidden="true">→</span></button>
               <button class="landing-secondary" data-action="scroll-workflows">See what you’ll make <span aria-hidden="true">→</span></button>
             </div>
           </div>
@@ -254,8 +258,8 @@ function renderLanding() {
 
       <section class="format-section" id="workflows" aria-labelledby="formats-title">
         <div class="format-heading">
-          <h2 id="formats-title">Five professional workflows.<br />Forty-seven chances to make the frame better.</h2>
-          <p>Every lesson ends with something you changed, rendered, and can explain.</p>
+          <h2 id="formats-title">From first preview to professional film.</h2>
+          <p>${allLessons.length} active lessons build setup fluency, visual judgment, production systems, and a verified capstone.</p>
         </div>
         <div class="workflow-list">
           ${formats.map((module) => `<button class="format-card" data-start-lesson="${module.lessons[0].id}" style="--module-color:${module.color}">
@@ -324,18 +328,20 @@ function renderLanding() {
 
 function renderPreview(lesson) {
   const [kicker, headline, copy] = previewCopy(lesson);
-  return `<div class="preview-frame" id="preview-frame" data-preview="${lesson.preview}">
+  return `<div class="preview-frame" id="preview-frame" data-preview="${lesson.preview}" data-lesson="${lesson.id}">
+    <div class="preview-safe" aria-hidden="true"></div>
     <div class="preview-kicker">${escapeHtml(kicker)}</div>
     <div class="preview-headline">${escapeHtml(headline)}</div>
     <p class="preview-copy">${escapeHtml(copy)}</p>
     <div class="preview-rule"></div>
     <div class="preview-object" aria-hidden="true"></div>
+    <div class="preview-beats" aria-hidden="true">${lesson.beats.map((beat, index) => `<span style="--beat:${index}">${escapeHtml(beat)}</span>`).join("")}</div>
   </div>`;
 }
 
 function renderControls(lesson, code) {
   const values = parseVariables(code, lesson);
-  const intro = lesson.lab?.intro || "Move two controls. The CSS cell updates with you.";
+  const intro = lesson.lab?.intro || "Change one or two decisions. The CSS cell updates with you.";
   return `<div class="control-deck" aria-label="Interactive frame controls">
     <div class="control-deck-intro"><span>Try it first</span><p>${escapeHtml(intro)}</p></div>
     ${controlSpec(lesson).map((control) => {
@@ -394,16 +400,16 @@ function renderLesson() {
           ${renderControls(lesson, code)}
           <div class="lab-grid">
             <div class="code-panel">
-              <div class="panel-bar"><span>${escapeHtml(lesson.lab?.filename || "frame.css")}</span><div class="panel-tools"><span>${escapeHtml(lesson.lab?.kind || "local variables")}</span><button class="icon-button" data-copy-target="#code-editor" aria-label="Copy editable code">${copyIcon()}</button><button class="icon-button" data-dictate-target="#code-editor" aria-label="Dictate into editable code" aria-pressed="false">${microphoneIcon()}</button></div></div>
+              <div class="panel-bar"><span>${escapeHtml(lesson.lab?.filename || "frame.css")}</span><div class="panel-tools"><span>${escapeHtml(lesson.lab?.kind || "local variables")}</span><button class="reset-default" data-action="reset-code" aria-label="Reset code to lesson default">${resetIcon()}<span>Reset default</span></button><button class="icon-button" data-copy-target="#code-editor" aria-label="Copy editable code">${copyIcon()}</button><button class="icon-button" data-dictate-target="#code-editor" aria-label="Dictate into editable code" aria-pressed="false">${microphoneIcon()}</button></div></div>
               <textarea class="code-editor" id="code-editor" spellcheck="false" aria-label="${escapeHtml(lesson.lab?.ariaLabel || "Editable frame variables")}">${escapeHtml(code)}</textarea>
             </div>
             <div class="preview-panel">
-              <div class="panel-bar"><span>Result</span><span class="panel-status" id="panel-status">ready</span></div>
+              <div class="panel-bar"><span>Result</span><span class="panel-status" id="panel-status" aria-live="polite">ready</span></div>
               <div class="preview-wrap">${renderPreview(lesson)}</div>
             </div>
           </div>
-          <div class="run-row"><button class="run-button" data-action="run">▶&nbsp;&nbsp;Run frame</button><button class="secondary-button" data-action="reset-code">Reset</button><span class="shortcut">⌘/Ctrl + Enter</span></div>
-          <p class="parse-warning" id="parse-warning"></p>
+          <div class="run-row"><button class="run-button" data-action="run">▶&nbsp;&nbsp;Run frame</button><span class="shortcut">⌘/Ctrl + Enter</span></div>
+          <p class="parse-warning" id="parse-warning" aria-live="assertive"></p>
         </div>
       </section>
 
@@ -419,7 +425,7 @@ function renderLesson() {
       <section class="cell reflect-cell">
         <div class="cell-index">04 <span class="cell-kind">Reflect</span></div>
         <div class="cell-body">
-          <h2 class="instruction">What changed in the frame, and why is it stronger or weaker?</h2>
+          <h2 class="instruction">What did this decision change, and which version would you keep?</h2>
           <div class="input-shell">
             <textarea class="reflection" id="reflection" maxlength="500" placeholder="Write or dictate one observation…">${escapeHtml(note)}</textarea>
             <button class="icon-button input-microphone" data-dictate-target="#reflection" aria-label="Dictate reflection" aria-pressed="false">${microphoneIcon()}</button>
@@ -451,61 +457,46 @@ function renderLesson() {
 }
 
 function parseVariables(text, lesson = currentLesson()) {
-  const isYaml = lesson.lab?.syntax === "yaml";
   const get = (name, fallback) => {
-    if (isYaml) {
-      const match = text.match(new RegExp(`^\\s*${name}\\s*:\\s*[\"']?([^\\n\"']+)`, "im"));
-      return match ? match[1].trim() : fallback;
-    }
     const match = text.match(new RegExp(`--${name}\\s*:\\s*([^;]+);`, "i"));
     return match ? match[1].trim() : fallback;
   };
-  const number = (name, fallback) => {
-    const raw = Number.parseFloat(get(name, fallback));
-    return Number.isFinite(raw) ? raw : Number(fallback);
-  };
-  const accent = get("accent", "#ef4e2f");
-  if (!/^#[0-9a-f]{6}$/i.test(accent)) throw new Error("Use a six-digit hex value for --accent.");
-  return {
-    headline: Math.min(1.5, Math.max(.55, number("headline-scale", 1))),
-    subject: Math.min(1.5, Math.max(.55, number("subject-scale", 1))),
-    energy: Math.min(1, Math.max(0, number("energy", .45))),
-    density: Math.min(1, Math.max(0, number("density", .5))),
-    accent,
-  };
+  const values = { headline: 1, subject: 1, energy: .45, density: .5, accent: "#ef4e2f" };
+
+  for (const control of controlSpec(lesson)) {
+    const fallback = control.value ?? values[control.key];
+    const raw = get(control.variable, fallback);
+    if (control.type === "color") {
+      if (!/^#[0-9a-f]{6}$/i.test(raw)) throw new Error(`Use a six-digit hex value for --${control.variable}.`);
+      values[control.key] = raw;
+      continue;
+    }
+    const parsed = Number.parseFloat(raw);
+    if (!Number.isFinite(parsed)) throw new Error(`Use a number for --${control.variable}.`);
+    values[control.key] = Math.min(control.max, Math.max(control.min, parsed));
+  }
+
+  return values;
 }
 
 function updateEditorVariable(variable, value) {
   const editor = document.querySelector("#code-editor");
   if (!editor) return;
-  const lesson = currentLesson();
-  if (lesson.lab?.syntax === "yaml") {
-    const pattern = new RegExp(`(^\\s*${variable}\\s*:\\s*)([^\\n]+)`, "im");
-    const replacement = variable === "accent" ? `$1"${value}"` : `$1${value}`;
-    editor.value = editor.value.replace(pattern, replacement);
-  } else {
-    const pattern = new RegExp(`(--${variable}\\s*:\\s*)([^;]+)(;)`, "i");
-    editor.value = editor.value.replace(pattern, `$1${value}$3`);
-  }
+  const pattern = new RegExp(`(--${variable}\\s*:\\s*)([^;]+)(;)`, "i");
+  editor.value = editor.value.replace(pattern, `$1${value}$3`);
   state.code[state.current] = editor.value;
   saveState();
   applyVariables(true);
 }
 
-function syncControls(vars) {
-  const values = {
-    "headline-scale": vars.headline,
-    "subject-scale": vars.subject,
-    energy: vars.energy,
-    density: vars.density,
-    accent: vars.accent,
-  };
-  Object.entries(values).forEach(([variable, value]) => {
-    const control = document.querySelector(`[data-variable="${variable}"]`);
-    const output = document.querySelector(`[data-output="${variable}"]`);
+function syncControls(vars, lesson = currentLesson()) {
+  for (const spec of controlSpec(lesson)) {
+    const value = vars[spec.key];
+    const control = document.querySelector(`[data-variable="${spec.variable}"]`);
+    const output = document.querySelector(`[data-output="${spec.variable}"]`);
     if (control) control.value = value;
-    if (output) output.value = variable === "accent" ? value : Number(value).toFixed(2);
-  });
+    if (output) output.value = spec.type === "color" ? value : Number(value).toFixed(2);
+  }
 }
 
 function applyVariables(animate = true) {
@@ -520,7 +511,10 @@ function applyVariables(animate = true) {
     frame.style.setProperty("--energy", vars.energy);
     frame.style.setProperty("--density", vars.density);
     frame.style.setProperty("--accent-local", vars.accent);
-    syncControls(vars);
+    for (const control of controlSpec(currentLesson())) {
+      frame.style.setProperty(`--decision-${control.variable}`, vars[control.key]);
+    }
+    syncControls(vars, currentLesson());
     warning.textContent = "";
     state.code[state.current] = editor.value;
     saveState();

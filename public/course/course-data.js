@@ -1,3 +1,5 @@
+import { practiceByLesson } from "./practice-data.js";
+
 function releaseLesson({ day, id, title, objective, concept, deliverable, code, preview, source }) {
   return {
     id,
@@ -29,6 +31,69 @@ function releaseLesson({ day, id, title, objective, concept, deliverable, code, 
 }
 
 export const modules = [
+  {
+    id: "getting-started",
+    number: "00",
+    title: "Start here",
+    short: "Go from an empty folder to a verified local video loop.",
+    color: "#ef4e2f",
+    lessons: [
+      {
+        id: "zero-install",
+        number: "0.1",
+        title: "Install and verify HyperFrames",
+        duration: "15 min",
+        objective: "Open a working local HyperFrames project and prove that its preview loads.",
+        coach: "Setup is complete when the real project opens, not when an install command exits.",
+        concept: "HyperFrames runs locally through its CLI and browser-based Studio. Update the current workflow skills, check the environment, scaffold a blank project, then open the exact preview URL the CLI returns.",
+        takeaways: ["Update the workflow skills first.", "Run the environment check.", "Create a blank, pinned project.", "Use the CLI’s exact preview URL."],
+        exercise: "Install HyperFrames in your working agent environment, create a blank project, and open its first composition in Studio.",
+        deliverable: "A local project folder plus a browser preview you can reopen.",
+        code: `npx hyperframes skills update\nnpx hyperframes doctor\nnpx hyperframes init hypercourse-first-frame --non-interactive --example=blank\ncd hypercourse-first-frame\nnpx hyperframes preview`,
+        quiz: { question: "What proves the setup is actually complete?", options: ["The package downloaded", "The real project preview opens", "A command was copied"], answer: 1 },
+        preview: "workflow",
+        beats: ["Update", "Check", "Create", "Open", "Verify"],
+        sourceUrl: "https://github.com/heygen-com/hyperframes",
+        sourceLabel: "Official HyperFrames repository",
+      },
+      {
+        id: "zero-project-map",
+        number: "0.2",
+        title: "Know what every project file does",
+        duration: "18 min",
+        objective: "Read a HyperFrames project without treating it as an undifferentiated code folder.",
+        coach: "When intent, design, composition, media, and proof have clear homes, revision becomes much safer.",
+        concept: "BRIEF.md defines the job and completion bar. design.md holds brand truth. frame.md translates that system for video. The HTML composition owns the visible frame, local assets supply media, and QA plus renders preserve proof and output.",
+        takeaways: ["Start with BRIEF.md.", "Keep design truth separate from frame translation.", "Treat assets as sourced inputs.", "Separate QA evidence from final renders."],
+        exercise: "Label the role of each file in a starter project and trace one visual decision from brief to rendered frame.",
+        deliverable: "A one-page project map you can use when a generated folder becomes confusing.",
+        code: `project/\n├── BRIEF.md          # job, audience, source, completion bar\n├── design.md         # brand truth\n├── frame.md          # video-specific design contract\n├── index.html        # composition\n├── compositions/     # reusable scenes\n├── assets/           # approved local media\n├── qa/               # checks and review evidence\n└── renders/          # output files`,
+        quiz: { question: "Where should the project’s completion bar live?", options: ["BRIEF.md", "A random code comment", "The renders folder"], answer: 0 },
+        preview: "workflow",
+        beats: ["Intent", "Design", "Frame", "Proof", "Output"],
+        sourceUrl: "https://www.hyperframes.dev/design",
+        sourceLabel: "Official HyperFrames design guide",
+      },
+      {
+        id: "zero-first-render",
+        number: "0.3",
+        title: "Complete the first local feedback loop",
+        duration: "25 min",
+        objective: "Move one tiny composition from brief to watched render without skipping approval.",
+        coach: "The point is not cinematic ambition. It is learning the complete loop while the project is still small.",
+        concept: "Write a six-line brief, compose one strong still, run lint and check, inspect the browser preview, render only after the frame is approved, then watch the output file. Each gate answers a different question.",
+        takeaways: ["Keep the first video to one claim.", "Approve the still before motion.", "Use check for technical proof.", "Watch the final file before calling it done."],
+        exercise: "Create a five-second title reveal from a sanitized brief and carry it through the complete local loop.",
+        deliverable: "A five-second MP4, its source project, and a short QA ledger.",
+        code: `npx hyperframes lint\nnpx hyperframes check --snapshots\nnpx hyperframes preview\n# Approve the frame in the browser, then:\nnpx hyperframes render --quality high --output renders/first-loop.mp4\nffprobe renders/first-loop.mp4`,
+        quiz: { question: "When should you render the first master?", options: ["Immediately after generation", "After the browser preview is creatively approved", "Before running check"], answer: 1 },
+        preview: "qa",
+        beats: ["Brief", "Compose", "Check", "Approve", "Watch"],
+        sourceUrl: "https://github.com/heygen-com/hyperframes",
+        sourceLabel: "Official HyperFrames repository",
+      },
+    ],
+  },
   {
     id: "foundations",
     number: "01",
@@ -342,9 +407,9 @@ export const modules = [
   {
     id:"finish", number:"10", title:"Polish + export", short:"Prove the film, not just the code.", color:"#9cad8c",
     lessons:[
-      { id:"deterministic-qa", number:"10.1", title:"The deterministic QA loop", duration:"22 min", objective:"Turn verification into a repeatable creative practice.", coach:"A green lint result cannot tell you whether the scene feels good—but it can keep preventable defects out of the review.", concept:"Use lint for fast static feedback, then check --snapshots as the final browser gate for runtime, layout, motion, contrast, and annotated review frames. Preview for creative approval before rendering, then watch and verify the output.", takeaways:["Lint while authoring.","Use check --snapshots for the final technical gate.","Preview and receive creative approval before render.","Watch and verify the rendered file."], exercise:"Run the current four-stage QA loop on one lesson project.", deliverable:"A QA ledger with commands, findings, fixes, and remaining judgment calls.", code:`npx hyperframes lint\nnpx hyperframes check --snapshots --samples 15\nnpx hyperframes snapshot . --at 1.5,4,7.25\nnpx hyperframes render --quality draft`, quiz:{question:"What does a passing lint result prove?",options:["The film is creatively strong","The checked structural rules pass","The final render was watched"],answer:1}, preview:"qa", beats:["Lint","Check","Preview","Render","Watch"] },
+      { id:"deterministic-qa", number:"10.1", title:"The deterministic QA loop", duration:"22 min", objective:"Turn verification into a repeatable creative practice.", coach:"A green lint result cannot tell you whether the scene feels good—but it can keep preventable defects out of the review.", concept:"Use lint for fast static feedback, then check --snapshots as the final browser gate for runtime, layout, motion, contrast, and annotated review frames. Preview for creative approval before rendering, then watch and verify the output file.", takeaways:["Lint while authoring.","Use check --snapshots for the final technical gate.","Preview and receive creative approval before render.","Watch and verify the rendered file."], exercise:"Run the current four-stage QA loop on one lesson project.", deliverable:"A QA ledger with commands, findings, fixes, and remaining judgment calls.", code:`npx hyperframes lint\nnpx hyperframes check --snapshots --samples 15\nnpx hyperframes preview\n# After creative approval:\nnpx hyperframes render --quality high --output renders/final.mp4\nffprobe renders/final.mp4`, quiz:{question:"What does a passing lint result prove?",options:["The film is creatively strong","The checked structural rules pass","The final render was watched"],answer:1}, preview:"qa", beats:["Lint","Check","Preview","Render","Watch"] },
       { id:"review-language", number:"10.2", title:"Give actionable review notes", duration:"17 min", objective:"Diagnose the layer that actually failed.", coach:"‘Make it pop’ is not a note. ‘The claim and evidence enter with equal weight’ is.", concept:"Classify notes as narrative, composition, typography, motion, timing, asset, or technical. Fix the highest layer first; polishing motion cannot rescue a broken story beat.", takeaways:["Name the layer.","Describe visible evidence.","State the viewer consequence.","Propose the smallest repair."], exercise:"Rewrite ten vague creative notes into actionable work orders.", deliverable:"A review ledger sorted by layer and priority.", code:`Finding: Claim and proof enter simultaneously.\nLayer: Motion hierarchy.\nConsequence: Viewer cannot identify the main idea.\nRepair: Lead with claim; delay proof by 280ms.`, quiz:{question:"Which note is most actionable?",options:["Make it more cinematic","The evidence arrives before the claim; delay it 300ms","Try another color"],answer:1}, preview:"qa", beats:["Observe","Classify","Consequence","Repair","Verify"] },
-      { id:"capstone", number:"10.3", title:"Capstone: one complete professional film", duration:"3–5 hr", objective:"Build, verify, and package one sanitized film from brief to master.", coach:"The capstone is complete when another person can understand the intent, inspect the source, and watch a verified render.", concept:"Choose one of the six formats. Produce a brief, design.md, frame.md, script or transcript, storyboard, composition, QA ledger, review render, and final local master.", takeaways:["Choose a format-specific completion bar.","Preserve the decision trail.","Use sanitized local assets.","Package source, proof, and master separately."], exercise:"Complete one sanitized project and prepare it for optional HeyGen team sharing.", deliverable:"A portable project folder with source, local assets, QA evidence, and a final MP4.", code:`project/\n├── design.md\n├── frame.md\n├── SCRIPT.md or transcript.json\n├── STORYBOARD.md\n├── index.html\n├── compositions/\n├── assets/\n├── qa/\n└── renders/`, quiz:{question:"What makes the capstone shareable?",options:["A polished MP4 alone","Source, decisions, QA evidence, and verified output","A public deployment"],answer:1}, preview:"qa", beats:["Brief","Design","Build","Verify","Package"] },
+      { id:"capstone", number:"10.3", title:"Capstone: one complete professional film", duration:"3–5 hr", objective:"Build, verify, and package one sanitized film from brief to master.", coach:"The capstone is complete when another person can understand the intent, inspect the source, and watch a verified render.", concept:"Choose one professional format. Produce BRIEF.md, design.md, frame.md, a script or transcript, storyboard, composition, QA ledger, review render, and final local master.", takeaways:["Choose a format-specific completion bar.","Preserve the decision trail.","Use sanitized local assets.","Package source, proof, and master separately."], exercise:"Complete one sanitized project and prepare it for optional HeyGen team sharing.", deliverable:"A portable project folder with source, local assets, QA evidence, and a final MP4.", code:`project/\n├── BRIEF.md\n├── design.md\n├── frame.md\n├── SCRIPT.md or transcript.json\n├── STORYBOARD.md\n├── index.html\n├── compositions/\n├── assets/\n├── qa/\n└── renders/`, quiz:{question:"What makes the capstone shareable?",options:["A polished MP4 alone","Source, decisions, QA evidence, and verified output","A public deployment"],answer:1}, preview:"qa", beats:["Brief","Design","Build","Verify","Package"] },
     ]
   },
   {
@@ -354,7 +419,7 @@ export const modules = [
     short:"Practice every HyperFrames workflow HeyGen has published so far.",
     color:"#ff5a36",
     lessons:[
-      releaseLesson({ day:1, id:"daily-install", title:"Install HyperFrames where you work", objective:"Install and verify HyperFrames in the same local agent environment you will use for the course.", concept:"The shortest path to fluency is removing setup friction. Install once, run the environment check, scaffold a tiny project, and make the preview URL your working surface.", deliverable:"A verified local install and one starter composition open in Studio.", code:`npx hyperframes@latest skills\nnpx hyperframes doctor\nnpx hyperframes init first-frame --non-interactive\nnpx hyperframes preview`, preview:"qa", source:"2074176916819685648" }),
+      releaseLesson({ day:1, id:"daily-install", title:"Install HyperFrames where you work", objective:"Install and verify HyperFrames in the same local agent environment you will use for the course.", concept:"The shortest path to fluency is removing setup friction. Update the current workflow skills, run the environment check, scaffold a pinned local project, and make the preview URL your working surface.", deliverable:"A verified local install and one starter composition open in Studio.", code:`npx hyperframes skills update\nnpx hyperframes doctor\nnpx hyperframes init first-frame --non-interactive --example=blank\ncd first-frame\nnpx hyperframes preview`, preview:"qa", source:"2074176916819685648" }),
       releaseLesson({ day:2, id:"daily-motion-language", title:"Give the brand a motion language", objective:"Translate a brand into reusable visual and motion constraints before generating scenes.", concept:"A brand survives motion when color, type, entrance behavior, transition grammar, and explicit anti-patterns are written down as a design contract.", deliverable:"A compact design.md and frame.md plus one frame that visibly follows them.", code:`# design.md sets brand truth.\n# frame.md translates it for video composition.\n\n## Motion intent\n- Entries: decisive, 0.35–0.65s\n- Primary transition: editorial push\n- Avoid: equal cards, generic gradients, constant motion`, preview:"identity", source:"2074574265714905167" }),
       releaseLesson({ day:3, id:"daily-pr-video", title:"Turn an open PR into a video", objective:"Convert a real code change into a concise product story rather than a changelog slideshow.", concept:"A useful PR video connects the user problem, the changed behavior, and the proof. The diff supplies facts; the film still needs hierarchy and an editorial arc.", deliverable:"A 60-second PR walkthrough plan with one visible before-and-after.", code:`Story: problem → changed behavior → proof → next step\nSource: PR description + changed UI + approved screenshots`, preview:"tour", source:"2074954182583554051" }),
       releaseLesson({ day:4, id:"daily-music-video", title:"Turn music into beat-synced video", objective:"Map a track’s structure and meaning to deterministic visual changes.", concept:"Beat sync is useful when it supports the song’s form. Use sections, energy, and lyrical meaning to drive a visual system instead of attaching generic pulses to every beat.", deliverable:"A 12-second music-led proof with one motif that evolves.", code:`npx hyperframes transcribe track.wav\n// Map sections and energy before styling individual beats.`, preview:"music", source:"2075262117964615956" }),
@@ -362,17 +427,31 @@ export const modules = [
       releaseLesson({ day:6, id:"daily-talking-head", title:"Recut a talking head with synced graphics", objective:"Layer designed graphic moments over speech without obscuring the speaker or flattening the pacing.", concept:"Talking-head graphics should clarify the spoken turn: a kinetic title, a decisive stat, or a visual proof. They should enter on meaning, leave cleanly, and preserve the face.", deliverable:"A 15-second recut with three distinct, word-timed graphic interventions.", code:`// Use transcript timestamps as anchors.\ntl.from(".key-claim", { y: 36, opacity: 0, duration: .38 }, wordStart);`, preview:"social", source:"2075998619325604238" }),
       releaseLesson({ day:7, id:"daily-motion-graphics", title:"Make motion graphics by example", objective:"Build a short design-led piece where motion itself carries the message.", concept:"Short motion graphics work best when one visual rule does the heavy lifting: kinetic type, a count-up, a chart reveal, or a geometric transformation. No narration is required when the movement is the argument.", deliverable:"An under-10-second motion graphic with one idea and one motion rule.", code:`tl.from(".claim", { scale:.72, opacity:0, duration:.32, ease:"back.out(1.4)" });\ntl.to(".proof", { "--value": 81, duration:1.1, ease:"power3.out" });`, preview:"data", source:"2076381187640324427" }),
       releaseLesson({ day:9, id:"daily-figma", title:"Carry a Figma design into HyperFrames", objective:"Use a Figma source as the design contract for a launch film.", concept:"Figma-to-HyperFrames is valuable because it preserves decisions already made: layout, colors, fonts, spacing, and assets. Motion should extend that system, not reinterpret it into a generic video template.", deliverable:"A launch frame that matches its source mock in type, color, spacing, and asset treatment.", code:`/figma https://figma.com/file/...\n// Audit hex, font, frame geometry, and crop before animating.`, preview:"identity", source:"2077072141309382770" }),
-      releaseLesson({ day:10, id:"daily-prompt-anatomy", title:"Structure a prompt around six decisions", objective:"Write a video brief that resolves the decisions an agent would otherwise guess.", concept:"A strong prompt specifies the job, audience, source material, format, visual direction, and completion bar. Clear inputs reduce creative drift without scripting every pixel.", deliverable:"A reusable six-part prompt for one professional video format.", code:`Job:\nAudience:\nSource material:\nFormat + duration:\nVisual direction:\nCompletion bar:`, preview:"launch", source:"2077438104982667282" }),
+      releaseLesson({ day:10, id:"daily-prompt-anatomy", title:"Write the brief before the prompt", objective:"Write BRIEF.md so the selected workflow starts with decisions instead of guesses.", concept:"A useful BRIEF.md specifies the job, audience, source material, deliverable, visual direction, and completion bar. HyperFrames can then route to the right workflow without inventing the project’s intent.", deliverable:"A reusable six-part BRIEF.md for one professional video format.", code:`# BRIEF.md\n\nJob:\nAudience:\nSource material:\nDeliverable + duration:\nVisual direction:\nCompletion bar:\n\n# Then invoke the workflow that matches the deliverable.`, preview:"launch", source:"2077438104982667282" }),
       releaseLesson({ day:11, id:"daily-video-extraction", title:"Reuse a scene from an existing video", objective:"Extract and repurpose the strongest element of a prior video without rebuilding the whole piece.", concept:"Existing video can be source material. Isolate a useful scene, remove what no longer belongs, and place it inside a new composition where timing and context give it a new job.", deliverable:"One extracted scene reused inside a new 10-second composition.", code:`// Keep video muted; route audio separately.\n<video src="source.mp4" muted playsinline data-media-start="12.4"></video>`, preview:"tour", source:"2077798995762823593" }),
       releaseLesson({ day:12, id:"daily-dynamic-captions", title:"Style dynamic captions", objective:"Add word-timed caption components that feel designed and remain readable.", concept:"Caption styles are reusable components, but the choices stay editorial: phrase grouping, emphasis, position, and exit timing must follow the speaker and the frame.", deliverable:"Five caption groups using one coherent component style and verified exits.", code:`npx hyperframes add dynamic-captions\n// Group by phrase; emphasize meaning; hard-kill every group.`, preview:"social", source:"2078190361932103716" }),
       releaseLesson({ day:13, id:"daily-studio-preview", title:"Edit the composition in Studio", objective:"Move from prompt-only generation into deliberate visual editing.", concept:"Studio is the place to inspect the actual composition: clips, timing, typography, color, and frame state. A generated first pass becomes professional when the maker can see and revise the visual system directly.", deliverable:"A Studio revision that improves one typography, color, or clip decision.", code:`npx hyperframes preview\n# Open the project URL and inspect the composition, not index.html.`, preview:"qa", source:"2078589328562016559" }),
-      releaseLesson({ day:14, id:"daily-keyframes", title:"Edit how the frame moves", objective:"Use Studio keyframes to refine timing, easing, and spatial emphasis.", concept:"Keyframes expose the motion decision itself: when movement begins, where it lands, and how its easing changes perceived weight. Adjust motion after the end-state composition is already working.", deliverable:"A before-and-after keyframe pass with a written timing rationale.", code:`// End-state CSS first. Then tune the journey.\ntl.from(".subject", { x:72, opacity:0, duration:.62, ease:"expo.out" }, .2);`, preview:"launch", source:"2078945075787452660" }),
+      releaseLesson({ day:14, id:"daily-keyframes", title:"Edit how the frame moves", objective:"Use Studio keyframes to refine timing, easing, and spatial emphasis.", concept:"Keyframes expose the motion decision itself: when movement begins, where it lands, and how easing changes perceived weight. Define the end-state first, inspect proof poses, and verify that seeking produces the same frame every time.", deliverable:"A before-and-after keyframe pass with proof poses and a written timing rationale.", code:`// End-state CSS first. Then tune the journey.\ntl.from(".subject", { x:72, opacity:0, duration:.62, ease:"expo.out" }, .2);\n\nnpx hyperframes keyframes . --json\nnpx hyperframes snapshot . --at 0.2,0.51,0.82`, preview:"launch", source:"2078945075787452660" }),
       releaseLesson({ day:15, id:"daily-sample-web", title:"Extract motion graphics from the web", objective:"Study and reuse a web motion pattern without copying the surrounding page.", concept:"The web is a reference library: hero animation, chart behavior, Lottie timing, and interaction patterns can be isolated, understood, and adapted into a deterministic composition.", deliverable:"A recreated motion principle with its source behavior and adaptation documented.", code:`Observe → isolate the motion rule → rebuild deterministically → credit the reference`, preview:"manifesto", source:"2079251321484722675" }),
-      releaseLesson({ day:16, id:"daily-asset-libraries", title:"Use asset libraries with intent", objective:"Combine motion graphics with source-appropriate media instead of treating every frame as generated typography.", concept:"A complete video needs more than motion graphics. Search and select assets by narrative role, provenance, crop potential, and visual fit, then give each asset a specific job in the storyboard.", deliverable:"A five-asset source map labeling proof, metaphor, atmosphere, and transition use.", code:`asset: product-closeup.mp4\nrole: proof\nsource: approved library\ncrop: 16:9 macro\nused_at: reveal`, preview:"manifesto", source:"2079609229737111978" }),
+      releaseLesson({ day:16, id:"daily-asset-libraries", title:"Use asset libraries with intent", objective:"Resolve source-appropriate local media by narrative role instead of treating every frame as generated typography.", concept:"The media-use workflow handles images, video, audio, logos, grades, and transforms. Select each local asset by narrative role, provenance, crop potential, and visual fit, then record the decision before it enters the storyboard.", deliverable:"A five-asset local source map labeling proof, metaphor, atmosphere, and transition use.", code:`asset: assets/product-closeup.mp4\nrole: proof\nsource: approved local library\nprovenance: internal product capture\ncrop: 16:9 macro\nused_at: reveal`, preview:"manifesto", source:"2079609229737111978" }),
       releaseLesson({ day:17, id:"daily-storyboard", title:"Control the output through storyboards", objective:"Direct the video in three increasingly expensive passes before the final build.", concept:"The Storyboard flow separates plan, sketch, and build. First approve the sequence, then approve real copy and layout, then add design and motion. Comments can revise one frame while approved frames remain fixed.", deliverable:"A confirmed storyboard with plan cards, wireframe sketches, and one frame revised by comment.", code:`Use HyperFrames to build a launch video for my website.\nI want to storyboard it first.\n\nnpx hyperframes preview\n# Open the Storyboard tab: plan → sketch → build`, preview:"qa", source:"2080012076454719554" }),
     ]
   }
 ];
+
+const lessonIds = modules.flatMap((module) => module.lessons.map((lesson) => lesson.id));
+const missingPractice = lessonIds.filter((id) => !practiceByLesson[id]);
+const extraPractice = Object.keys(practiceByLesson).filter((id) => !lessonIds.includes(id));
+
+if (missingPractice.length || extraPractice.length) {
+  throw new Error(`Practice map mismatch. Missing: ${missingPractice.join(", ") || "none"}. Extra: ${extraPractice.join(", ") || "none"}.`);
+}
+
+for (const module of modules) {
+  for (const lesson of module.lessons) {
+    Object.assign(lesson, practiceByLesson[lesson.id]);
+  }
+}
 
 export const styles = [
   { id:"precision", name:"Precision Editorial", bg:"#11110f", fg:"#f2efe7", accent:"#ff5a36", secondary:"#9cad8c", display:"Helvetica Neue", body:"Iowan Old Style", motion:"Fast structural entries; decisive holds; editorial pushes", avoids:"Centered card grids, neon tech defaults, decorative motion" },
