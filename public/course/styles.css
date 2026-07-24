@@ -207,7 +207,7 @@ body[data-screen="home"] { background:#0b0b0c; }
   margin:0;
   color:#f4f2ed;
   font-family:var(--display);
-  font-size:clamp(3.5rem, 4.4vw, 5.5rem);
+  font-size:clamp(3rem, 3.4vw, 4.5rem);
   font-weight:750;
   line-height:.91;
   letter-spacing:-.062em;
@@ -1526,7 +1526,7 @@ summary:focus-visible {
   .landing-hero { padding:38px 0 54px; }
   .landing-copy { gap:18px; }
   .landing-eyebrow { font-size:14px; }
-  .landing-title { font-size:clamp(3rem, 14vw, 3.75rem); line-height:.96; letter-spacing:-.05em; }
+  .landing-title { font-size:clamp(2.5rem, 10.5vw, 3rem); line-height:.96; letter-spacing:-.05em; }
   .landing-intro { line-height:1.55; }
   .landing-actions { display:grid; }
   .landing-primary, .landing-secondary { width:100%; }

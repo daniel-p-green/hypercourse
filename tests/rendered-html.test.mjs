@@ -239,7 +239,8 @@ test("keeps responsive typography bounded and reflow-safe", async () => {
   assert.match(courseApp, /<h1 class="landing-title">Make videos with rhythm, depth, and intent\.<\/h1>/);
   assert.match(styles, /--type-hero:\s*clamp\([^;]*rem[^;]*vw[^;]*rem\)/);
   assert.match(styles, /\.landing-hero\s*\{[^}]*grid-template-columns:minmax\(430px,[^}]*minmax\(540px,/s);
-  assert.match(styles, /\.landing-title\s*\{[^}]*font-size:clamp\(3\.5rem,[^}]*5\.5rem/s);
+  assert.match(styles, /\.landing-title\s*\{[^}]*font-size:clamp\(3rem,[^}]*4\.5rem/s);
+  assert.match(styles, /@media \(max-width: 560px\)[\s\S]*?\.landing-title\s*\{[^}]*font-size:clamp\(2\.5rem,[^}]*3rem/s);
   assert.match(styles, /\.landing-copy\s*\{[^}]*min-width:0/s);
   assert.match(styles, /@media \(max-width: 1100px\)[\s\S]*?\.landing-hero\s*\{[^}]*display:block/s);
   assert.match(styles, /--type-ui:\s*clamp\(\.9375rem/);
