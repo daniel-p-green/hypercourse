@@ -1,6 +1,6 @@
 import { practiceByLesson } from "./practice-data.js";
 
-function releaseLesson({ day, id, title, objective, concept, deliverable, code, preview, source }) {
+function releaseLesson({ day, id, title, objective, concept, deliverable, code, preview, source, steps }) {
   return {
     id,
     releaseDay: day,
@@ -10,7 +10,7 @@ function releaseLesson({ day, id, title, objective, concept, deliverable, code, 
     objective,
     coach: "Use the published workflow as a starting point, then make one visible decision yourself.",
     concept,
-    takeaways: [
+    takeaways: steps ?? [
       "Run the workflow on a sanitized local project.",
       "Change one meaningful creative decision.",
       "Inspect the result at the moment it must read.",
@@ -45,14 +45,14 @@ export const modules = [
         duration: "15 min",
         objective: "Open a working local HyperFrames project and prove that its preview loads.",
         coach: "Setup is complete when the real project opens, not when an install command exits.",
-        concept: "HyperFrames runs locally through its CLI and browser-based Studio. Update the current workflow skills, check the environment, scaffold a blank project, then open the exact preview URL the CLI returns.",
-        takeaways: ["Update the workflow skills first.", "Run the environment check.", "Create a blank, pinned project.", "Use the CLI’s exact preview URL."],
+        concept: "HyperFrames runs locally through its CLI and browser-based Studio. Check the environment, scaffold a blank project, validate it, then open the exact preview URL the CLI returns.",
+        takeaways: ["Confirm Node.js 22 or newer and FFmpeg are available.", "Run the environment check and resolve every failure.", "Create a blank local project.", "Run lint and inspect inside the project.", "Use the CLI’s exact Studio project URL."],
         exercise: "Install HyperFrames in your working agent environment, create a blank project, and open its first composition in Studio.",
         deliverable: "A local project folder plus a browser preview you can reopen.",
-        code: `npx hyperframes skills update\nnpx hyperframes doctor\nnpx hyperframes init hypercourse-first-frame --non-interactive --example=blank\ncd hypercourse-first-frame\nnpx hyperframes preview`,
+        code: `node --version\nffmpeg -version\nnpx hyperframes doctor\nnpx hyperframes init hypercourse-first-frame --non-interactive --example blank\ncd hypercourse-first-frame\nnpx hyperframes lint\nnpx hyperframes inspect\nnpx hyperframes preview`,
         quiz: { question: "What proves the setup is actually complete?", options: ["The package downloaded", "The real project preview opens", "A command was copied"], answer: 1 },
         preview: "workflow",
-        beats: ["Update", "Check", "Create", "Open", "Verify"],
+        beats: ["Check", "Create", "Validate", "Open", "Verify"],
         sourceUrl: "https://github.com/heygen-com/hyperframes",
         sourceLabel: "Official HyperFrames repository",
       },
@@ -419,7 +419,24 @@ export const modules = [
     short:"Practice every HyperFrames workflow HeyGen has published so far.",
     color:"#ff5a36",
     lessons:[
-      releaseLesson({ day:1, id:"daily-install", title:"Install HyperFrames where you work", objective:"Install and verify HyperFrames in the same local agent environment you will use for the course.", concept:"The shortest path to fluency is removing setup friction. Update the current workflow skills, run the environment check, scaffold a pinned local project, and make the preview URL your working surface.", deliverable:"A verified local install and one starter composition open in Studio.", code:`npx hyperframes skills update\nnpx hyperframes doctor\nnpx hyperframes init first-frame --non-interactive --example=blank\ncd first-frame\nnpx hyperframes preview`, preview:"qa", source:"2074176916819685648" }),
+      releaseLesson({
+        day:1,
+        id:"daily-install",
+        title:"Install HyperFrames where you work",
+        objective:"Install and verify HyperFrames in the same local agent environment you will use for the course.",
+        concept:"The shortest path to fluency is removing setup friction. Confirm the prerequisites, run the environment check, scaffold a blank project, validate it, and make the Studio project URL your working surface.",
+        deliverable:"The first-frame project, clean doctor, lint, and inspect results, plus its Studio project URL.",
+        code:`node --version\nffmpeg -version\nnpx hyperframes doctor\nnpx hyperframes init first-frame --non-interactive --example blank\ncd first-frame\nnpx hyperframes lint\nnpx hyperframes inspect\nnpx hyperframes preview`,
+        preview:"qa",
+        source:"2074176916819685648",
+        steps:[
+          "Confirm Node.js 22 or newer and FFmpeg are available.",
+          "Run npx hyperframes doctor and resolve every failed requirement.",
+          "Scaffold first-frame from the blank example.",
+          "Run lint and inspect inside the new project.",
+          "Start preview and open the exact Studio project URL printed by the CLI.",
+        ],
+      }),
       releaseLesson({ day:2, id:"daily-motion-language", title:"Give the brand a motion language", objective:"Translate a brand into reusable visual and motion constraints before generating scenes.", concept:"A brand survives motion when color, type, entrance behavior, transition grammar, and explicit anti-patterns are written down as a design contract.", deliverable:"A compact design.md and frame.md plus one frame that visibly follows them.", code:`# design.md sets brand truth.\n# frame.md translates it for video composition.\n\n## Motion intent\n- Entries: decisive, 0.35–0.65s\n- Primary transition: editorial push\n- Avoid: equal cards, generic gradients, constant motion`, preview:"identity", source:"2074574265714905167" }),
       releaseLesson({ day:3, id:"daily-pr-video", title:"Turn an open PR into a video", objective:"Convert a real code change into a concise product story rather than a changelog slideshow.", concept:"A useful PR video connects the user problem, the changed behavior, and the proof. The diff supplies facts; the film still needs hierarchy and an editorial arc.", deliverable:"A 60-second PR walkthrough plan with one visible before-and-after.", code:`Story: problem → changed behavior → proof → next step\nSource: PR description + changed UI + approved screenshots`, preview:"tour", source:"2074954182583554051" }),
       releaseLesson({ day:4, id:"daily-music-video", title:"Turn music into beat-synced video", objective:"Map a track’s structure and meaning to deterministic visual changes.", concept:"Beat sync is useful when it supports the song’s form. Use sections, energy, and lyrical meaning to drive a visual system instead of attaching generic pulses to every beat.", deliverable:"A 12-second music-led proof with one motif that evolves.", code:`npx hyperframes transcribe track.wav\n// Map sections and energy before styling individual beats.`, preview:"music", source:"2075262117964615956" }),

@@ -194,7 +194,14 @@ test("gives every lesson a concept-specific experiment", async () => {
   const byId = Object.fromEntries(allLessons.map((lesson) => [lesson.id, lesson]));
   assert.equal(byId["timeline-contract"].controls[0].label, "Temporal separation");
   assert.equal(byId["social-captions"].controls[0].label, "Words per group");
-  assert.match(byId["daily-install"].code, /hyperframes skills update/);
+  assert.doesNotMatch(byId["daily-install"].code, /hyperframes skills update/);
+  assert.match(byId["daily-install"].code, /hyperframes doctor/);
+  assert.match(byId["daily-install"].code, /init first-frame --non-interactive --example blank/);
+  assert.match(byId["daily-install"].code, /hyperframes lint/);
+  assert.match(byId["daily-install"].code, /hyperframes inspect/);
+  assert.match(byId["daily-install"].code, /hyperframes preview/);
+  assert.equal(byId["daily-install"].takeaways.length, 5);
+  assert.match(byId["daily-install"].takeaways[0], /Node\.js 22/);
   assert.match(byId["daily-prompt-anatomy"].code, /BRIEF\.md/);
   assert.match(byId["daily-keyframes"].code, /hyperframes keyframes/);
   assert.match(byId["daily-asset-libraries"].concept, /media-use/);
@@ -213,7 +220,10 @@ test("starts at zero and closes the first complete local loop", async () => {
     ["zero-install", "zero-project-map", "zero-first-render"],
   );
   assert.equal(allLessons[0].id, "zero-install");
+  assert.doesNotMatch(start.lessons[0].code, /hyperframes skills update/);
   assert.match(start.lessons[0].code, /hyperframes doctor/);
+  assert.match(start.lessons[0].code, /hyperframes lint/);
+  assert.match(start.lessons[0].code, /hyperframes inspect/);
   assert.match(start.lessons[1].code, /BRIEF\.md/);
   assert.match(start.lessons[2].code, /check --snapshots/);
   assert.match(start.lessons[2].code, /ffprobe/);
@@ -228,8 +238,8 @@ test("keeps responsive typography bounded and reflow-safe", async () => {
 
   assert.match(courseApp, /<h1 class="landing-title">Make videos with rhythm, depth, and intent\.<\/h1>/);
   assert.match(styles, /--type-hero:\s*clamp\([^;]*rem[^;]*vw[^;]*rem\)/);
-  assert.match(styles, /\.landing-hero\s*\{[^}]*grid-template-columns:minmax\(360px,[^}]*minmax\(600px,/s);
-  assert.match(styles, /\.landing-title\s*\{[^}]*font-size:clamp\(3\.75rem,[^}]*6\.25rem/s);
+  assert.match(styles, /\.landing-hero\s*\{[^}]*grid-template-columns:minmax\(430px,[^}]*minmax\(540px,/s);
+  assert.match(styles, /\.landing-title\s*\{[^}]*font-size:clamp\(3\.5rem,[^}]*5\.5rem/s);
   assert.match(styles, /\.landing-copy\s*\{[^}]*min-width:0/s);
   assert.match(styles, /@media \(max-width: 1100px\)[\s\S]*?\.landing-hero\s*\{[^}]*display:block/s);
   assert.match(styles, /--type-ui:\s*clamp\(\.9375rem/);
@@ -237,6 +247,8 @@ test("keeps responsive typography bounded and reflow-safe", async () => {
   assert.match(styles, /\.preview-kicker\s*\{[^}]*font-size:\s*clamp\(14px/s);
   assert.match(styles, /\.preview-copy\s*\{[^}]*font-size:\s*clamp\(14px/s);
   assert.match(styles, /\.preview-wrap\s*\{[^}]*container-type:\s*inline-size/s);
+  assert.match(styles, /\.proof-checklist label > input\s*\{[^}]*inset:0[^}]*width:100%[^}]*height:100%/s);
+  assert.doesNotMatch(styles, /\.proof-checklist label > input\s*\{[^}]*pointer-events:none/s);
   assert.match(styles, /\.preview-headline\s*\{[^}]*cqw/s);
   assert.match(styles, /\.brand-button\s*\{[^}]*min-height:\s*40px/s);
   assert.match(styles, /\.landing-wordmark\s*\{[^}]*min-height:\s*44px/s);
