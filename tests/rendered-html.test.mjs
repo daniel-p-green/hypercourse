@@ -29,8 +29,8 @@ test("server-renders the Hypercourse shell and metadata", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>Hypercourse — Make videos with rhythm, depth, and intent<\/title>/i);
-  assert.match(html, /zero to professional HyperFrames fluency through 50 hands-on local lessons/i);
+  assert.match(html, /<title>Hypercourse — Make videos that don’t look like slides<\/title>/i);
+  assert.match(html, /Practice HyperFrames through 50 hands-on local lessons/i);
   assert.match(html, /href="\/assets\/[^"]+\.css"/i);
   assert.match(html, /id="app"/i);
   assert.match(html, /id="toast"/i);
@@ -83,7 +83,7 @@ test("keeps Hypercourse naming consistent and migrates existing progress", async
   assert.match(courseApp, /const LEGACY_STORAGE_KEY = "framecraft-course-v1"/);
   assert.match(courseData, /title:"HyperFrames release track"/);
   assert.doesNotMatch(courseData, /title:"30 Days release track"/);
-  assert.match(standaloneHtml, /<title>Hypercourse — Make videos with rhythm, depth, and intent<\/title>/);
+  assert.match(standaloneHtml, /<title>Hypercourse — Make videos that don’t look like slides<\/title>/);
   assert.doesNotMatch(
     [rootReadme, courseReadme, design, starterReadme].join("\n"),
     /\bFramecraft\b/,
@@ -130,8 +130,9 @@ test("includes a complete design.md and frame.md learning section", async () => 
 });
 
 test("links official, watchable HyperFrames projects to remix", async () => {
-  const [courseApp, courseData] = await Promise.all([
+  const [courseApp, styles, courseData] = await Promise.all([
     readFile(new URL("../public/course/app.js", import.meta.url), "utf8"),
+    readFile(new URL("../public/course/styles.css", import.meta.url), "utf8"),
     import(`${new URL("../public/course/course-data.js", import.meta.url).href}?examples=${Date.now()}`),
   ]);
 
@@ -147,6 +148,9 @@ test("links official, watchable HyperFrames projects to remix", async () => {
   assert.match(courseApp, /Finished HeyGen videos paired with source you can run locally\./);
   assert.match(courseApp, /Browse all official launch projects/);
   assert.match(courseApp, /git clone https:\/\/github\.com\/heygen-com\/hyperframes-launches\.git/);
+  assert.match(courseApp, /class="remix-heading-link"/);
+  assert.doesNotMatch(courseApp, /remix-footer">[\s\S]*Browse all official launch projects/);
+  assert.match(styles, /\.remix-footer\s*\{[^}]*grid-template-columns:minmax\(260px,[^}]*minmax\(0,/s);
 });
 
 test("teaches the current reusable composition system and CLI gate", async () => {
@@ -236,7 +240,9 @@ test("keeps responsive typography bounded and reflow-safe", async () => {
     readFile(new URL("../public/course/DESIGN.md", import.meta.url), "utf8"),
   ]);
 
-  assert.match(courseApp, /<h1 class="landing-title">Make videos with rhythm, depth, and intent\.<\/h1>/);
+  assert.match(courseApp, /<h1 class="landing-title">Make videos that don’t look like slides\.<\/h1>/);
+  assert.match(courseApp, /Learn HyperFrames through small, local exercises\./);
+  assert.doesNotMatch(courseApp, /Finish with a professional film/);
   assert.match(styles, /--type-hero:\s*clamp\([^;]*rem[^;]*vw[^;]*rem\)/);
   assert.match(styles, /\.landing-hero\s*\{[^}]*grid-template-columns:minmax\(430px,[^}]*minmax\(540px,/s);
   assert.match(styles, /\.landing-title\s*\{[^}]*font-size:clamp\(3rem,[^}]*4\.5rem/s);

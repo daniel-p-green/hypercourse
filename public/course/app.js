@@ -257,9 +257,9 @@ function renderLanding() {
       <section class="landing-hero">
         <div class="landing-copy">
           <p class="landing-eyebrow">A local-first course for HyperFrames</p>
-          <h1 class="landing-title">Make videos with rhythm, depth, and intent.</h1>
+          <h1 class="landing-title">Make videos that don’t look like slides.</h1>
           <div class="landing-support">
-            <p class="landing-intro">Start with an empty local folder. Finish with a professional film you can explain, inspect, and verify. No prior HyperFrames experience required.</p>
+            <p class="landing-intro">Learn HyperFrames through small, local exercises. Change one decision, inspect what happened, and carry the pattern into your own project.</p>
             <div class="landing-actions">
               <button class="landing-primary" data-action="${hasProgress ? "continue" : "start"}">${hasProgress ? `Continue · ${done}/${allLessons.length}` : "Start with setup"} <span aria-hidden="true">→</span></button>
               <button class="landing-secondary" data-action="scroll-workflows">See what you’ll make <span aria-hidden="true">→</span></button>
@@ -321,6 +321,7 @@ function renderLanding() {
           <div>
             <h2 id="remix-title">Watch. Inspect. Remix.</h2>
             <span>Finished HeyGen videos paired with source you can run locally.</span>
+            <a class="remix-heading-link" href="https://github.com/heygen-com/hyperframes-launches" target="_blank" rel="noreferrer">Browse all official launch projects <span aria-hidden="true">→</span></a>
           </div>
         </div>
         <div class="remix-grid">
@@ -340,7 +341,6 @@ function renderLanding() {
             <code id="launch-clone-command">git clone https://github.com/heygen-com/hyperframes-launches.git</code>
             <button class="icon-button on-dark" data-copy-target="#launch-clone-command" aria-label="Copy clone command">${copyIcon()}</button>
           </div>
-          <a href="https://github.com/heygen-com/hyperframes-launches" target="_blank" rel="noreferrer">Browse all official launch projects <span aria-hidden="true">→</span></a>
         </div>
       </section>
 
