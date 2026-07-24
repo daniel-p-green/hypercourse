@@ -263,8 +263,8 @@ test("adds clear provenance, reusable copy controls, and dictation affordances",
   assert.match(courseApp, /https:\/\/www\.linkedin\.com\/in\/danielpgreen/);
   assert.match(courseApp, /const COURSE_UPDATED = "July 23, 2026"/);
   assert.match(courseApp, /Last updated <time datetime="2026-07-23">\$\{COURSE_UPDATED\}<\/time>/);
-  assert.equal((courseApp.match(/data-copy-target=/g) ?? []).length, 3);
-  assert.equal((courseApp.match(/data-dictate-target=/g) ?? []).length, 2);
+  assert.ok((courseApp.match(/data-copy-target=/g) ?? []).length >= 3);
+  assert.ok((courseApp.match(/data-dictate-target=/g) ?? []).length >= 2);
   assert.match(courseApp, /window\.SpeechRecognition \|\| window\.webkitSpeechRecognition/);
   assert.match(courseApp, /Reset default/);
   assert.match(courseApp, /data-action="reset-code"/);
@@ -273,4 +273,13 @@ test("adds clear provenance, reusable copy controls, and dictation affordances",
   assert.match(styles, /\.landing-wordmark\s*\{[^}]*font-size:22px/s);
   assert.match(styles, /\.landing-nav-actions\s*\{[^}]*font-size:16px/s);
   assert.match(styles, /\.icon-button\s*\{[^}]*width:40px[^}]*height:40px/s);
+  assert.match(courseApp, /This is not reading from your local HyperFrames project/);
+  assert.match(courseApp, /Text source: <code>public\/course\/practice-data\.js/);
+  assert.match(courseApp, /No simulated result\./);
+  assert.match(courseApp, /Hypercourse does not execute these commands\./);
+  assert.match(courseApp, /change pending/);
+  assert.match(courseApp, /data-proof-check/);
+  assert.match(styles, /\.exercise-brief\s*\{/);
+  assert.match(styles, /\.frame-source\s*\{/);
+  assert.match(styles, /\.proof-checklist\s*\{/);
 });
