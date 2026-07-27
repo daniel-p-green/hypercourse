@@ -1,4 +1,4 @@
-import { modules, allLessons, officialExamples } from "./course-data.js";
+import { modules, allLessons, officialExamples } from "./course-data.js?v=2026-07-27-workspace-v1";
 
 const STORAGE_KEY = "hypercourse-course-v1";
 const LEGACY_STORAGE_KEY = "framecraft-course-v1";

@@ -1,4 +1,4 @@
-import { practiceByLesson } from "./practice-data.js";
+import { practiceByLesson } from "./practice-data.js?v=2026-07-27-workspace-v1";
 
 function releaseLesson({ day, id, title, objective, concept, deliverable, code, preview, source, sourceAccount = "HeyGen", steps }) {
   return {

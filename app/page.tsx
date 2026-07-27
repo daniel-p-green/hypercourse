@@ -9,7 +9,7 @@ export default function Home() {
     const script = document.createElement("script");
     script.id = "hypercourse-app-script";
     script.type = "module";
-    script.src = "/course/app.js";
+    script.src = "/course/app.js?v=2026-07-27-workspace-v1";
     document.body.appendChild(script);
   }, []);
 

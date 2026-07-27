@@ -45,7 +45,8 @@ test("packages the interactive course and social card", async () => {
   ]);
 
   assert.match(page, /hypercourse-app-script/);
-  assert.match(page, /\/course\/app\.js/);
+  assert.match(page, /\/course\/app\.js\?v=2026-07-27-workspace-v1/);
+  assert.match(layout, /\/course\/styles\.css\?v=2026-07-27-workspace-v1/);
   assert.match(layout, /summary_large_image/);
   assert.match(layout, /\$\{canonical\}\/og\.png/);
   assert.match(layout, /icons: \{ icon: "\/favicon\.svg" \}/);

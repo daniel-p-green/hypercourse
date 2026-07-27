@@ -42,7 +42,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* eslint-disable-next-line @next/next/no-css-tags */}
-        <link rel="stylesheet" href="/course/styles.css" />
+        <link rel="stylesheet" href="/course/styles.css?v=2026-07-27-workspace-v1" />
       </head>
       <body>{children}</body>
     </html>
