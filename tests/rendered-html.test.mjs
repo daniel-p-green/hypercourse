@@ -221,6 +221,32 @@ test("gives every lesson a concept-specific experiment", async () => {
   assert.match(byId["daily-catalog-integration"].concept, /namespace generic ids/);
 });
 
+test("uses sliders only for directly visible decisions and hands real work to local tools", async () => {
+  const courseApp = await readFile(new URL("../public/course/app.js", import.meta.url), "utf8");
+  const simulatorBlock = courseApp.match(/const SIMULATOR_LESSONS = new Set\(\[([\s\S]*?)\]\);/)?.[1] ?? "";
+  const simulatorIds = [...simulatorBlock.matchAll(/"([^"]+)"/g)].map((match) => match[1]);
+
+  assert.equal(simulatorIds.length, 15);
+  assert.deepEqual(simulatorIds.slice(0, 4), [
+    "composition-first",
+    "powerpoint-detector",
+    "visual-identity",
+    "frame-translation",
+  ]);
+  assert.ok(simulatorIds.includes("data-clarity"));
+  assert.ok(simulatorIds.includes("restraint"));
+  assert.ok(simulatorIds.every((id) => !id.startsWith("daily-")));
+  assert.match(courseApp, /function usesLocalWorkspace\(lesson\)/);
+  assert.match(courseApp, /return !SIMULATOR_LESSONS\.has\(lesson\.id\)/);
+  assert.match(courseApp, /Work in two windows\./);
+  assert.match(courseApp, /Codex, Claude Code, or your editor/);
+  assert.match(courseApp, /Complete this in your local project\./);
+  assert.match(courseApp, /applyVariables\(false, true\)/);
+  assert.match(courseApp, /The preview updates immediately/);
+  assert.match(courseApp, /Apply edited code/);
+  assert.doesNotMatch(courseApp, /rendered locally/);
+});
+
 test("starts at zero and closes the first complete local loop", async () => {
   const courseDataUrl = new URL("../public/course/course-data.js", import.meta.url);
   courseDataUrl.searchParams.set("start", `${process.pid}-${Date.now()}`);
@@ -302,13 +328,16 @@ test("adds clear provenance, reusable copy controls, and dictation affordances",
   assert.match(styles, /\.landing-wordmark\s*\{[^}]*font-size:22px/s);
   assert.match(styles, /\.landing-nav-actions\s*\{[^}]*font-size:16px/s);
   assert.match(styles, /\.icon-button\s*\{[^}]*width:40px[^}]*height:40px/s);
-  assert.match(courseApp, /This is not reading from your local HyperFrames project/);
-  assert.match(courseApp, /Text source: <code>public\/course\/practice-data\.js/);
-  assert.match(courseApp, /No simulated result\./);
-  assert.match(courseApp, /Hypercourse does not execute these commands\./);
+  assert.match(courseApp, /Practice frame/);
+  assert.match(courseApp, /What you’re changing/);
+  assert.match(courseApp, /Complete this in your local project\./);
+  assert.match(courseApp, /Paste this into the appropriate file in your local project/);
+  assert.doesNotMatch(courseApp, /Hypercourse simulation|course simulator|Text source:|Lesson source:|This is not reading|course-authored|No fake slider/);
   assert.match(courseApp, /change pending/);
+  assert.match(courseApp, /split-window-guide/);
   assert.match(courseApp, /data-proof-check/);
   assert.match(styles, /\.exercise-brief\s*\{/);
   assert.match(styles, /\.frame-source\s*\{/);
+  assert.match(styles, /\.split-window-guide\s*\{/);
   assert.match(styles, /\.proof-checklist\s*\{/);
 });

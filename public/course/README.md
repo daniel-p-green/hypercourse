@@ -2,9 +2,9 @@
 
 Hypercourse is a self-contained, privacy-safe interactive course for learning professional video design with the local HyperFrames workflow. Every lesson follows the same notebook loop:
 
-**Idea → Do → Run → Reflect → Check**
+**Idea → Do → Notice → Reflect → Check**
 
-The opening course map starts with a zero-assumption local setup runway, then lets learners continue linearly or jump into a professional production format. Inside each lesson, one or two context-specific controls update the visual frame and the editable CSS cell together.
+The opening course map starts with a zero-assumption local setup runway, then lets learners continue linearly or jump into a professional production format. Fifteen visual-decision lessons use immediate in-course controls. Lessons that require real files, commands, previews, or renders instead use an explicit split-window workflow with Codex, Claude Code, or an editor beside Hypercourse.
 
 No account, API key, analytics, database, or cloud service is used. Progress, reflections, quiz responses, and edited cells are stored in the browser's `localStorage` on the current device.
 
@@ -65,4 +65,4 @@ The lessons are based on the locally installed HyperFrames skill pack and cover:
 - lint, check with annotated snapshots, preview approval, render, and human review
 - explicit dry-run or planning handoffs for release-track features that require hosted HeyGen services
 
-The in-course preview is a lightweight learning simulator for immediate visual feedback. The capstone uses the actual HyperFrames CLI and the starter pack in this folder.
+The in-course preview is used only when its visual control directly represents the lesson decision. Production work happens in the learner’s local project; Hypercourse supplies working source and evidence gates.

@@ -457,7 +457,7 @@ export const modules = [
         id:"daily-video-agent",
         title:"Direct Video Agent before it builds",
         objective:"Translate a local brief into a plan-first Video Agent prompt without surrendering the creative decisions.",
-        concept:"Video Agent is a hosted HeyGen workflow, so this local course does not pretend to run it. The transferable skill is direction: specify duration, aspect ratio, script constraints, exact palette, art direction, motion grammar, and transitions; then review the scene plan before production and revise only the scene that fails.",
+        concept:"Video Agent is a hosted HeyGen workflow. Prepare its direction handoff locally: specify duration, aspect ratio, script constraints, exact palette, art direction, motion grammar, and transitions; then review the scene plan before production and revise only the scene that fails.",
         deliverable:"A sanitized Video Agent handoff containing a style paragraph, scene plan, approval notes, and one targeted revision request.",
         code:`# Local planning exercise — no hosted generation is triggered.
 

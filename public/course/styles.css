@@ -1287,6 +1287,55 @@ h1 {
 .parse-warning { min-height:22px; margin:8px 0 0; color:#a44330; font-size:var(--type-meta); }
 
 .proof-brief { grid-template-columns:150px minmax(0, 1fr) minmax(300px, .8fr); }
+.split-window-guide {
+  display:grid;
+  grid-template-columns:minmax(260px, .85fr) minmax(440px, 1.15fr);
+  gap:20px 34px;
+  scroll-margin-top:70px;
+  margin-bottom:14px;
+  border:1px solid #b9c5d4;
+  padding:20px;
+  background:#e8eef5;
+}
+.split-window-guide > div:first-child > span {
+  color:#315b83;
+  font-family:var(--mono);
+  font-size:var(--type-meta);
+  font-weight:700;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+}
+.split-window-guide h3 {
+  margin:5px 0 7px;
+  font-family:var(--display);
+  font-size:clamp(1.5rem, 2.3vw, 2rem);
+  line-height:1.05;
+  letter-spacing:-.035em;
+}
+.split-window-guide p { margin:0; color:#4e5862; font-size:var(--type-ui); line-height:1.5; }
+.split-window-guide ol { display:grid; gap:8px; margin:0; padding:0; list-style:none; }
+.split-window-guide li { display:grid; grid-template-columns:28px 1fr; gap:10px; align-items:start; font-size:var(--type-ui); line-height:1.45; }
+.split-window-guide li b {
+  display:grid;
+  width:26px;
+  height:26px;
+  place-items:center;
+  border-radius:50%;
+  background:#315b83;
+  color:#fff;
+  font-family:var(--mono);
+  font-size:12px;
+}
+.tool-options { grid-column:1 / -1; display:flex; flex-wrap:wrap; gap:8px; }
+.tool-options span {
+  border:1px solid #9badc0;
+  border-radius:999px;
+  padding:7px 11px;
+  background:#f7fafc;
+  color:#31516f;
+  font-size:var(--type-meta);
+  font-weight:700;
+}
 .proof-origin {
   display:flex;
   gap:12px;
@@ -1481,6 +1530,8 @@ summary:focus-visible {
   .site-footer > p { grid-column:1 / -1; justify-self:start; }
   .lab-grid { grid-template-columns:1fr; }
   .proof-grid { grid-template-columns:1fr; }
+  .split-window-guide { grid-template-columns:1fr; }
+  .tool-options { grid-column:1; }
   .exercise-brief, .proof-brief { grid-template-columns:130px 1fr; }
   .exercise-brief > p { grid-column:2; }
   .frame-source { grid-template-columns:1fr; }

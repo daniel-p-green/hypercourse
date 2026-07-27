@@ -19,17 +19,17 @@ Hypercourse is designed to take a new HyperFrames user from an empty local folde
 Every lesson must include:
 
 1. A specific objective and concept, not a feature summary.
-2. One or two controls that practice the lesson’s actual decision.
-3. A preview whose visual grammar fits the concept.
+2. Either a directly mapped visual control or an explicit split-window local workflow.
+3. A preview only when the course can show the named consequence honestly.
 4. An action prompt that tells the learner what to inspect.
 5. A concrete deliverable.
-6. A production reference revealed after the learner tries.
+6. Working source, commands, or a production reference appropriate to the lesson.
 7. A reflection and knowledge check.
 8. A visible reset-to-default control on the editable code block.
 
 ## Verification
 
-The automated suite fails if a lesson is missing required instructional fields, uses no concept-specific practice, exceeds two controls, drops a current workflow command, or breaks the zero-to-first-render runway.
+The automated suite fails if a lesson is missing required instructional fields, assigns an interactive preview to an abstract or unverifiable decision, drops a current workflow command, or breaks the zero-to-first-render runway.
 
 The visual acceptance pass covers 320, 390, 720, and 1440 CSS pixels. At each width:
 

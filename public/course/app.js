@@ -4,24 +4,27 @@ const STORAGE_KEY = "hypercourse-course-v1";
 const LEGACY_STORAGE_KEY = "framecraft-course-v1";
 const COURSE_UPDATED = "July 27, 2026";
 const defaultState = { current: allLessons[0].id, complete: [], notes: {}, quiz: {}, code: {}, checks: {} };
-const PROOF_LESSONS = new Set([
-  "zero-install",
-  "zero-project-map",
-  "zero-first-render",
-  "lyric-lock",
-  "sub-composition-contract",
-  "registry-reuse",
-  "deterministic-qa",
-  "review-language",
-  "capstone",
-  "daily-install",
-  "daily-figma",
-  "daily-prompt-anatomy",
-  "daily-studio-preview",
-  "daily-sample-web",
-  "daily-asset-libraries",
-  "daily-storyboard",
+const SIMULATOR_LESSONS = new Set([
+  "composition-first",
+  "powerpoint-detector",
+  "visual-identity",
+  "frame-translation",
+  "frame-presets",
+  "design-adherence",
+  "object-staging",
+  "tour-route",
+  "tour-annotations",
+  "social-hook",
+  "social-zooms",
+  "data-argument",
+  "data-choreography",
+  "data-clarity",
+  "restraint",
 ]);
+
+function usesLocalWorkspace(lesson) {
+  return !SIMULATOR_LESSONS.has(lesson.id);
+}
 
 function loadState() {
   try {
@@ -115,7 +118,7 @@ function labDefaults(preview) {
 }
 
 function starterCode(lesson) {
-  if (PROOF_LESSONS.has(lesson.id)) return lesson.code;
+  if (usesLocalWorkspace(lesson)) return lesson.code;
   if (lesson.lab?.code) return lesson.lab.code;
   const [headline, subject, energy, density, accent] = labDefaults(lesson.preview);
   return `:root {
@@ -208,7 +211,7 @@ function controlConsequence(control) {
   const consequences = {
     headline: "Changes the scale of the main claim.",
     subject: "Changes the scale or crop of the visual subject.",
-    energy: "Changes the intensity of the simulated motion or contrast.",
+    energy: "Changes the intensity of the motion or contrast.",
     density: "Changes the amount of supporting visual information.",
     accent: "Changes the accent color used by the frame.",
   };
@@ -304,7 +307,7 @@ function renderLanding() {
         <div class="release-heading">
           <p>Current through Day 22</p>
           <h2 id="release-title">The HyperFrames release track</h2>
-          <span>Built from the official 30 Days of HyperFrames series. Day 8 was not published, so the track preserves the official numbering. Hosted workflows are taught as explicit local handoffs, not simulated renders.</span>
+          <span>Built from the official 30 Days of HyperFrames series. Day 8 was not published, so the track preserves the official numbering. Hosted workflows include a local planning handoff.</span>
         </div>
         <div class="release-rail">
           ${dailyModule.lessons.map((lesson) => `<button data-start-lesson="${lesson.id}">
@@ -345,9 +348,9 @@ function renderLanding() {
       </section>
 
       <section class="landing-method" aria-label="How the course works">
-        <p><strong>Change the frame.</strong><span>Use real controls or edit the CSS.</span></p>
-        <p><strong>Render locally.</strong><span>See the decision, not a lecture about it.</span></p>
-        <p><strong>Direct before you build.</strong><span>Plan, sketch, comment, then commit.</span></p>
+        <p><strong>Preview visual decisions here.</strong><span>Interactive practice frames let you test scale, crop, density, and color.</span></p>
+        <p><strong>Build production lessons beside it.</strong><span>Use Hypercourse in one window and Codex, Claude Code, or your editor in the other.</span></p>
+        <p><strong>Verify in HyperFrames.</strong><span>Run the real local preview and record evidence before marking a lesson complete.</span></p>
       </section>
     </main>
     ${renderSiteFooter()}
@@ -371,7 +374,7 @@ function renderPreview(lesson) {
 
 function renderControls(lesson, code) {
   const values = parseVariables(code, lesson);
-  const intro = `Use one control at a time. It writes the matching value into ${lesson.lab?.filename || "decision.css"}; the preview changes only after you apply it.`;
+  const intro = `Use one control at a time. The preview updates immediately and writes the matching value into ${lesson.lab?.filename || "decision.css"}.`;
   return `<div class="control-deck" aria-label="Interactive frame controls">
     <div class="control-deck-intro"><span>1. Make one change</span><p>${escapeHtml(intro)}</p></div>
     ${controlSpec(lesson).map((control) => {
@@ -386,17 +389,16 @@ function renderControls(lesson, code) {
 
 function renderFrameSource(lesson) {
   const [kicker, headline, copy] = previewCopy(lesson);
-  return `<aside class="frame-source" aria-label="Course preview source">
+  return `<aside class="frame-source" aria-label="Practice frame content">
     <div class="frame-source-heading">
-      <div><span>Preview source</span><strong>Hypercourse simulation</strong></div>
-      <p>This is not reading from your local HyperFrames project. The visible words are course-authored inputs shown below.</p>
+      <div><span>Practice frame</span><strong>What you’re changing</strong></div>
+      <p>Use these lesson inputs to practice one visible decision before carrying the pattern into a production file.</p>
     </div>
     <dl class="frame-inputs">
       <div><dt>Kicker</dt><dd>${escapeHtml(kicker)}</dd></div>
       <div><dt>Headline</dt><dd>${escapeHtml(headline)}</dd></div>
       <div><dt>Supporting copy</dt><dd>${escapeHtml(copy)}</dd></div>
     </dl>
-    <p class="source-path">Text source: <code>public/course/practice-data.js → practiceByLesson["${escapeHtml(lesson.id)}"].copy</code></p>
   </aside>`;
 }
 
@@ -411,34 +413,48 @@ function renderVisualLab(lesson, code) {
     ${renderFrameSource(lesson)}
     <div class="lab-grid">
       <div class="code-panel">
-        <div class="panel-bar"><span>Decision source · ${escapeHtml(lesson.lab?.filename || "frame.css")}</span><div class="panel-tools"><span>course simulator</span><button class="reset-default" data-action="reset-code" aria-label="Reset code to lesson default">${resetIcon()}<span>Reset default</span></button><button class="icon-button" data-copy-target="#code-editor" aria-label="Copy editable code">${copyIcon()}</button><button class="icon-button" data-dictate-target="#code-editor" aria-label="Dictate into editable code" aria-pressed="false">${microphoneIcon()}</button></div></div>
+        <div class="panel-bar"><span>Decision source · ${escapeHtml(lesson.lab?.filename || "frame.css")}</span><div class="panel-tools"><span>practice controls</span><button class="reset-default" data-action="reset-code" aria-label="Reset code to lesson default">${resetIcon()}<span>Reset default</span></button><button class="icon-button" data-copy-target="#code-editor" aria-label="Copy editable code">${copyIcon()}</button><button class="icon-button" data-dictate-target="#code-editor" aria-label="Dictate into editable code" aria-pressed="false">${microphoneIcon()}</button></div></div>
         <textarea class="code-editor" id="code-editor" spellcheck="false" aria-label="${escapeHtml(lesson.lab?.ariaLabel || "Editable frame variables")}">${escapeHtml(code)}</textarea>
       </div>
       <div class="preview-panel">
-        <div class="panel-bar"><span>Course preview · uses the text above</span><span class="panel-status" id="panel-status" aria-live="polite">ready</span></div>
+        <div class="panel-bar"><span>Practice preview</span><span class="panel-status" id="panel-status" aria-live="polite">ready</span></div>
         <div class="preview-wrap">${renderPreview(lesson)}</div>
       </div>
     </div>
     <div class="run-row">
-      <button class="run-button" data-action="run">▶&nbsp;&nbsp;2. Apply to course preview</button>
+      <button class="run-button" data-action="run">▶&nbsp;&nbsp;Apply edited code</button>
       <span class="shortcut">⌘/Ctrl + Enter</span>
-      <p><strong>3. Inspect:</strong> ${escapeHtml(actionPrompt(lesson))}</p>
+      <p><strong>Inspect:</strong> ${escapeHtml(actionPrompt(lesson))}</p>
     </div>
     <p class="parse-warning" id="parse-warning" aria-live="assertive"></p>`;
 }
 
-function renderProofLab(lesson, code) {
+function renderLocalLab(lesson, code) {
   const savedChecks = state.checks[lesson.id] || [];
   const checks = lesson.takeaways || [];
   return `
     <div class="exercise-brief proof-brief">
       <span>Your task</span>
       <strong>${escapeHtml(lesson.exercise || lesson.objective)}</strong>
-      <p>Do this in your local HyperFrames project. Hypercourse cannot inspect your machine, so only record a gate after you have real evidence.</p>
+      <p>Make this change in your local project, inspect the actual preview, and save evidence of the result.</p>
     </div>
+    <aside class="split-window-guide" aria-label="Recommended split-window workflow">
+      <div>
+        <span>Best experience</span>
+        <h3>Work in two windows.</h3>
+        <p>Keep this lesson visible beside the code tool that can read your project and the local HyperFrames preview that shows the real result.</p>
+      </div>
+      <ol>
+        <li><b>1</b><span>Copy the working source below.</span></li>
+        <li><b>2</b><span>Use Codex, Claude Code, or your editor in the project folder.</span></li>
+        <li><b>3</b><span>Run the actual HyperFrames preview or check command.</span></li>
+        <li><b>4</b><span>Record only the evidence you observed.</span></li>
+      </ol>
+      <div class="tool-options" aria-label="Compatible local tools"><span>Codex</span><span>Claude Code</span><span>Editor + terminal</span></div>
+    </aside>
     <div class="proof-origin">
-      <strong>No simulated result.</strong>
-      <span>This lesson uses a self-reported evidence checklist because a decorative slider cannot prove local work.</span>
+      <strong>Complete this in your local project.</strong>
+      <span>Use the working source below, inspect the result in HyperFrames, and record the evidence you actually observed.</span>
     </div>
     <div class="proof-grid">
       <fieldset class="proof-checklist">
@@ -446,16 +462,15 @@ function renderProofLab(lesson, code) {
         ${checks.map((check, index) => `<label><input type="checkbox" data-proof-check="${index}" ${savedChecks.includes(index) ? "checked" : ""} /><span><b>${index + 1}</b>${escapeHtml(check)}</span></label>`).join("")}
       </fieldset>
       <div class="code-panel proof-code-panel">
-        <div class="panel-bar"><span>Local commands · visible lesson source</span><div class="panel-tools"><span>copy to your project</span><button class="reset-default" data-action="reset-code" aria-label="Reset code to lesson default">${resetIcon()}<span>Reset default</span></button><button class="icon-button" data-copy-target="#code-editor" aria-label="Copy reference commands">${copyIcon()}</button><button class="icon-button" data-dictate-target="#code-editor" aria-label="Dictate into reference commands" aria-pressed="false">${microphoneIcon()}</button></div></div>
-        <textarea class="code-editor proof-code" id="code-editor" spellcheck="false" aria-label="Editable local reference commands">${escapeHtml(code)}</textarea>
-        <p class="code-caveat">Visible source only. Hypercourse does not execute these commands.</p>
+        <div class="panel-bar"><span>Working source · copy to your project</span><div class="panel-tools"><span>use beside your editor</span><button class="reset-default" data-action="reset-code" aria-label="Reset code to lesson default">${resetIcon()}<span>Reset default</span></button><button class="icon-button" data-copy-target="#code-editor" aria-label="Copy working source">${copyIcon()}</button><button class="icon-button" data-dictate-target="#code-editor" aria-label="Dictate into working source" aria-pressed="false">${microphoneIcon()}</button></div></div>
+        <textarea class="code-editor proof-code" id="code-editor" spellcheck="false" aria-label="Editable local working source">${escapeHtml(code)}</textarea>
+        <p class="code-caveat">Paste this into the appropriate file in your local project, then preview the result.</p>
       </div>
     </div>
     <div class="proof-summary" id="proof-summary" aria-live="polite">
       <strong>${savedChecks.length}/${checks.length} gates recorded</strong>
       <span>Completion bar: ${escapeHtml(lesson.objective)}</span>
-    </div>
-    <p class="source-path">Lesson source: <code>public/course/course-data.js → ${escapeHtml(lesson.id)}</code></p>`;
+    </div>`;
 }
 
 function renderDrawer() {
@@ -480,8 +495,9 @@ function renderLesson() {
   const lesson = currentLesson();
   const index = lessonIndex();
   const savedCode = state.code[lesson.id];
-  const obsoleteProofSimulation = PROOF_LESSONS.has(lesson.id) && savedCode && /One decision\. One visible consequence|^\s*:root\s*\{/m.test(savedCode);
-  const code = obsoleteProofSimulation ? starterCode(lesson) : (savedCode || starterCode(lesson));
+  const localWorkspace = usesLocalWorkspace(lesson);
+  const staleSavedCss = localWorkspace && savedCode && /One decision\. One visible consequence|^\s*:root\s*\{/m.test(savedCode);
+  const code = staleSavedCss ? starterCode(lesson) : (savedCode || starterCode(lesson));
   const note = state.notes[lesson.id] || "";
   const selectedQuiz = state.quiz[lesson.id];
   const isComplete = state.complete.includes(lesson.id);
@@ -502,24 +518,24 @@ function renderLesson() {
       <section class="cell do-cell">
         <div class="cell-index">02 <span class="cell-kind">Do</span></div>
         <div class="cell-body">
-          <div class="do-header"><h2 class="do-title">${escapeHtml(lesson.lab?.title || "Change the frame")}</h2><p class="do-help">${PROOF_LESSONS.has(lesson.id) ? "Complete real gates in your local project and record the evidence." : "Change one decision, apply it, and inspect the named consequence."}</p></div>
-          ${PROOF_LESSONS.has(lesson.id) ? renderProofLab(lesson, code) : renderVisualLab(lesson, code)}
+          <div class="do-header"><h2 class="do-title">${escapeHtml(lesson.lab?.title || "Change the frame")}</h2><p class="do-help">${localWorkspace ? "Use a split window, make the change in your project, and record real evidence." : "Change one visual decision and inspect the immediate course preview."}</p></div>
+          ${localWorkspace ? renderLocalLab(lesson, code) : renderVisualLab(lesson, code)}
         </div>
       </section>
 
       <section class="cell instruction-cell">
         <div class="cell-index">03 <span class="cell-kind">Notice</span></div>
         <div class="cell-body">
-          <h2 class="instruction">${escapeHtml(PROOF_LESSONS.has(lesson.id) ? `Proof required: ${lesson.objective}` : actionPrompt(lesson))}</h2>
+          <h2 class="instruction">${escapeHtml(localWorkspace ? `Proof required: ${lesson.objective}` : actionPrompt(lesson))}</h2>
           <p class="deliverable">Make: ${escapeHtml(lesson.deliverable)}</p>
-          ${PROOF_LESSONS.has(lesson.id) ? "" : `<details class="reference-details"><summary>Show the production pattern after you try</summary><div class="reference-code-wrap"><pre class="reference-code"><code id="reference-code">${escapeHtml(lesson.code)}</code></pre><button class="icon-button on-dark reference-copy" data-copy-target="#reference-code" aria-label="Copy production pattern">${copyIcon()}</button></div></details>`}
+          ${localWorkspace ? "" : `<details class="reference-details"><summary>Show the production pattern after you try</summary><div class="reference-code-wrap"><pre class="reference-code"><code id="reference-code">${escapeHtml(lesson.code)}</code></pre><button class="icon-button on-dark reference-copy" data-copy-target="#reference-code" aria-label="Copy production pattern">${copyIcon()}</button></div></details>`}
         </div>
       </section>
 
       <section class="cell reflect-cell">
         <div class="cell-index">04 <span class="cell-kind">Reflect</span></div>
         <div class="cell-body">
-          <h2 class="instruction">${PROOF_LESSONS.has(lesson.id) ? "What evidence did you produce, and where is it saved?" : "What did this decision change, and which version would you keep?"}</h2>
+          <h2 class="instruction">${localWorkspace ? "What evidence did you produce, and where is it saved?" : "What did this decision change, and which version would you keep?"}</h2>
           <div class="input-shell">
             <textarea class="reflection" id="reflection" maxlength="500" placeholder="Write or dictate one observation…">${escapeHtml(note)}</textarea>
             <button class="icon-button input-microphone" data-dictate-target="#reflection" aria-label="Dictate reflection" aria-pressed="false">${microphoneIcon()}</button>
@@ -547,7 +563,7 @@ function renderLesson() {
     ${renderDrawer()}`;
 
   bindEvents();
-  if (!PROOF_LESSONS.has(lesson.id)) applyVariables(false);
+  if (!localWorkspace) applyVariables(false, false);
 }
 
 function parseVariables(text, lesson = currentLesson()) {
@@ -597,7 +613,7 @@ function syncControls(vars, lesson = currentLesson()) {
   }
 }
 
-function applyVariables(animate = true) {
+function applyVariables(animate = true, announce = true) {
   const editor = document.querySelector("#code-editor");
   const frame = document.querySelector("#preview-frame");
   const warning = document.querySelector("#parse-warning");
@@ -616,13 +632,15 @@ function applyVariables(animate = true) {
     warning.textContent = "";
     state.code[state.current] = editor.value;
     saveState();
+    const status = document.querySelector("#panel-status");
+    if (announce && status) {
+      status.textContent = animate ? "applied" : "live preview";
+      status.classList.remove("is-pending");
+    }
     if (animate) {
       frame.classList.remove("is-running");
       requestAnimationFrame(() => frame.classList.add("is-running"));
-      const status = document.querySelector("#panel-status");
       if (status) {
-        status.textContent = "rendered locally";
-        status.classList.remove("is-pending");
         window.setTimeout(() => { status.textContent = "ready"; }, 1000);
       }
     }
@@ -788,6 +806,7 @@ function bindEvents() {
     const variable = event.currentTarget.dataset.variable;
     const value = event.currentTarget.type === "color" ? event.currentTarget.value : Number(event.currentTarget.value).toFixed(2);
     updateEditorVariable(variable, value);
+    applyVariables(false, true);
   }));
 
   app.querySelectorAll("[data-copy-target]").forEach((button) => {
@@ -840,7 +859,7 @@ function bindEvents() {
 }
 
 document.addEventListener("keydown", (event) => {
-  if ((event.metaKey || event.ctrlKey) && event.key === "Enter" && !PROOF_LESSONS.has(currentLesson().id)) { event.preventDefault(); applyVariables(true); }
+  if ((event.metaKey || event.ctrlKey) && event.key === "Enter" && !usesLocalWorkspace(currentLesson())) { event.preventDefault(); applyVariables(true); }
   if ((event.metaKey || event.ctrlKey) && event.key === "]") { event.preventDefault(); navigate(1); }
   if (event.key === "Escape" && drawerOpen) { drawerOpen = false; renderCurrent(); }
 });

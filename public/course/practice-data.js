@@ -534,7 +534,7 @@ export const practiceByLesson = {
     action: "Raise plan specificity until a reviewer can approve the sequence and isolate one revision without rebuilding everything.",
     filename: "video-agent-handoff.md",
     kind: "local hosted-workflow handoff",
-    copy: ["Day 18", "Describe. Review the plan. Hold decisions fixed.", "The local artifact is the direction contract, not a simulated cloud render."],
+    copy: ["Day 18", "Describe. Review the plan. Hold decisions fixed.", "The local artifact is the direction contract for the hosted build."],
     controls: [slider("plan-specificity", "density", "Plan specificity", 0, 1, .01, .44)],
   }),
   "daily-alpha-compositing": practice({

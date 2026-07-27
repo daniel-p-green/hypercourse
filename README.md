@@ -4,9 +4,9 @@ The OpenAI Sites release of **Hypercourse**, an interactive course for building 
 
 Hypercourse opens with a zero-assumption setup runway, then teaches professional HyperFrames video design through 55 focused notebook lessons. Each lesson follows the same active loop:
 
-**Idea → Do → Run → Notice → Reflect → Check**
+**Idea → Do → Notice → Reflect → Check**
 
-Every lesson includes one or two context-specific visual controls that update the frame and its editable CSS cell together.
+Fifteen visual-decision lessons use an immediate practice preview. Production lessons use a split-window workflow: keep Hypercourse beside Codex, Claude Code, or an editor, run the real local HyperFrames workflow, and record evidence in the course.
 
 The course covers foundations, product launches, product tours, vertical social video, data stories, music and lyric videos, cinematic manifestos, and deterministic finishing.
 
