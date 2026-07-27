@@ -1,6 +1,6 @@
 import { practiceByLesson } from "./practice-data.js";
 
-function releaseLesson({ day, id, title, objective, concept, deliverable, code, preview, source, steps }) {
+function releaseLesson({ day, id, title, objective, concept, deliverable, code, preview, source, sourceAccount = "HeyGen", steps }) {
   return {
     id,
     releaseDay: day,
@@ -26,7 +26,7 @@ function releaseLesson({ day, id, title, objective, concept, deliverable, code, 
     },
     preview,
     beats: ["Brief", "Run", "Change", "Inspect", "Explain"],
-    sourceUrl: `https://x.com/HeyGen/status/${source}`,
+    sourceUrl: `https://x.com/${sourceAccount}/status/${source}`,
   };
 }
 
@@ -452,6 +452,106 @@ export const modules = [
       releaseLesson({ day:15, id:"daily-sample-web", title:"Extract motion graphics from the web", objective:"Study and reuse a web motion pattern without copying the surrounding page.", concept:"The web is a reference library: hero animation, chart behavior, Lottie timing, and interaction patterns can be isolated, understood, and adapted into a deterministic composition.", deliverable:"A recreated motion principle with its source behavior and adaptation documented.", code:`Observe → isolate the motion rule → rebuild deterministically → credit the reference`, preview:"manifesto", source:"2079251321484722675" }),
       releaseLesson({ day:16, id:"daily-asset-libraries", title:"Use asset libraries with intent", objective:"Resolve source-appropriate local media by narrative role instead of treating every frame as generated typography.", concept:"The media-use workflow handles images, video, audio, logos, grades, and transforms. Select each local asset by narrative role, provenance, crop potential, and visual fit, then record the decision before it enters the storyboard.", deliverable:"A five-asset local source map labeling proof, metaphor, atmosphere, and transition use.", code:`asset: assets/product-closeup.mp4\nrole: proof\nsource: approved local library\nprovenance: internal product capture\ncrop: 16:9 macro\nused_at: reveal`, preview:"manifesto", source:"2079609229737111978" }),
       releaseLesson({ day:17, id:"daily-storyboard", title:"Control the output through storyboards", objective:"Direct the video in three increasingly expensive passes before the final build.", concept:"The Storyboard flow separates plan, sketch, and build. First approve the sequence, then approve real copy and layout, then add design and motion. Comments can revise one frame while approved frames remain fixed.", deliverable:"A confirmed storyboard with plan cards, wireframe sketches, and one frame revised by comment.", code:`Use HyperFrames to build a launch video for my website.\nI want to storyboard it first.\n\nnpx hyperframes preview\n# Open the Storyboard tab: plan → sketch → build`, preview:"qa", source:"2080012076454719554" }),
+      releaseLesson({
+        day:18,
+        id:"daily-video-agent",
+        title:"Direct Video Agent before it builds",
+        objective:"Translate a local brief into a plan-first Video Agent prompt without surrendering the creative decisions.",
+        concept:"Video Agent is a hosted HeyGen workflow, so this local course does not pretend to run it. The transferable skill is direction: specify duration, aspect ratio, script constraints, exact palette, art direction, motion grammar, and transitions; then review the scene plan before production and revise only the scene that fails.",
+        deliverable:"A sanitized Video Agent handoff containing a style paragraph, scene plan, approval notes, and one targeted revision request.",
+        code:`# Local planning exercise — no hosted generation is triggered.
+
+Duration + aspect ratio:
+Audience + job:
+Script constraints:
+Palette (with hex values):
+Art direction:
+Motion grammar:
+Transitions:
+
+Plan review:
+- Approve:
+- Revise:
+- Hold fixed:`,
+        preview:"storyboard",
+        source:"2080407266755510452",
+        steps:[
+          "Write the production ask and style paragraph locally.",
+          "Draft the scene plan the agent should return before building.",
+          "Mark what is approved and what must remain fixed.",
+          "Write one scene-specific revision request.",
+          "Only use the hosted workflow later if the project permits it.",
+        ],
+      }),
+      releaseLesson({
+        day:19,
+        id:"daily-alpha-compositing",
+        title:"Separate the subject from the scene",
+        objective:"Turn flat footage into foreground, matte, and background layers that can be composed deliberately.",
+        concept:"Background removal is not merely cleanup. An alpha channel separates the person from the place, which makes depth available: captions can pass behind a shoulder, environments can change, and one approved take can be reused. Inspect edges, hair, motion blur, and spill before treating the matte as finished.",
+        deliverable:"A local transparent foreground, an inverse background plate, and one composite proof with a graphic passing behind the subject.",
+        code:`npx hyperframes remove-background clip.mp4 \
+  -o subject.webm \
+  --background-output background.mp4
+
+# Inspect the matte at the hardest edge before compositing.`,
+        preview:"captions",
+        source:"2080762012330807438",
+      }),
+      releaseLesson({
+        day:20,
+        id:"daily-claude-design-handoff",
+        title:"Turn exported HTML into a video composition",
+        objective:"Carry a downloaded Claude Design project into HyperFrames without losing its design system or importing its playback defects.",
+        concept:"Claude Design is an optional upstream design surface, not a local HyperFrames dependency. Its useful handoff is editable HTML, CSS, fonts, and tokens. Preserve those decisions, then refactor page-oriented behavior into a finite, seek-safe composition; continuous background media should live once beneath the full cut instead of restarting in every scene.",
+        deliverable:"A local HyperFrames composition that preserves the exported design tokens and fixes one page-to-timeline mismatch.",
+        code:`# After downloading the HTML project locally:
+npx hyperframes lint
+npx hyperframes preview
+
+# Audit: tokens, fonts, dimensions, media loops, scene timing.
+# Promote continuous background media to one master layer.`,
+        preview:"web",
+        source:"2081184676430160379",
+        sourceAccount:"HyperFrames_",
+      }),
+      releaseLesson({
+        day:21,
+        id:"daily-render-boundary",
+        title:"Choose the render boundary deliberately",
+        objective:"Decide when a project should stay in the fast local loop and when it is ready for a managed render handoff.",
+        concept:"The composition should not change when the render computer changes. Author and verify locally; use a cloud dry run only to inspect what would be packaged, excluded, and billed. This course never submits the render. The production decision must account for credentials, upload size, variables, retries, idempotency, output format, and cost.",
+        deliverable:"A local render plus a dry-run packaging report and a written local-versus-managed render decision.",
+        code:`# Author and verify locally.
+hyperframes render . --quality high --output renders/local-proof.mp4
+
+# Inspect the handoff without submitting a paid render.
+hyperframes cloud render . --dry-run
+
+# Record exclusions in .hyperframesignore before any real upload.`,
+        preview:"workflow",
+        source:"2081491370485952790",
+        sourceAccount:"HyperFrames_",
+      }),
+      releaseLesson({
+        day:22,
+        id:"daily-catalog-integration",
+        title:"Install, inspect, and adapt a catalog block",
+        objective:"Reuse a production-ready primitive while keeping the host composition deterministic and visually coherent.",
+        concept:"Catalog blocks and components are editable source, not sealed dependencies. Install the closest primitive, inspect its composition contract, then adapt copy, tokens, timing, and layers. When several blocks share a master document, remove nested roots, namespace generic ids, and place persistent overlays above internal canvases.",
+        deliverable:"One installed catalog item restyled to frame.md, wired into the timeline, and checked for root, id, and z-index collisions.",
+        code:`npx hyperframes catalog --type block
+npx hyperframes add x-post
+
+# Then inspect and adapt:
+# 1. one data-root clock
+# 2. namespaced ids and classes
+# 3. explicit overlay z-index
+# 4. frame.md colors, type, and timing`,
+        preview:"data",
+        source:"2081798071353278651",
+        sourceAccount:"HyperFrames_",
+      }),
     ]
   }
 ];

@@ -13,7 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
     metadataBase: new URL(canonical),
     title: "Hypercourse — Make videos that don’t look like slides",
     description:
-      "Practice HyperFrames through 50 hands-on local lessons, including HeyGen’s published release workflows through Day 17.",
+      "Practice HyperFrames through 55 hands-on local lessons, including the official release workflows through Day 22.",
     alternates: { canonical },
     icons: { icon: "/favicon.svg" },
     openGraph: {

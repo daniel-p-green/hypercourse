@@ -12,7 +12,7 @@ Hypercourse is designed to take a new HyperFrames user from an empty local folde
 | Professional formats | Build launch films, product tours, vertical social edits, data stories, music-led pieces, and cinematic manifesto work. |
 | Composition systems | Control time, sub-compositions, reusable registry components, and variable templates. |
 | Finish | Run deterministic QA, give actionable review notes, and package a verified capstone. |
-| Release track | Practice every published HeyGen HyperFrames workflow through Day 17 while preserving the official numbering. |
+| Release track | Practice every official HyperFrames workflow through Day 22 while preserving the official numbering and clearly labeling hosted handoffs. |
 
 ## Lesson acceptance bar
 

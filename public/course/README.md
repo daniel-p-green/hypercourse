@@ -36,7 +36,7 @@ The course uses plain HTML, CSS, and JavaScript so it can be shared or archived 
 8. Cinematic manifesto
 9. Composition systems: timeline contracts, sub-compositions, registry reuse, and batch variables
 10. Deterministic QA and capstone packaging
-11. HyperFrames release track through Day 17
+11. HyperFrames release track through Day 22
 
 The labs use sanitized fictional products and claims. The downloadable starter pack contains reusable planning documents for real HyperFrames projects.
 
@@ -63,5 +63,6 @@ The lessons are based on the locally installed HyperFrames skill pack and cover:
 - local transcription and audio-reactive workflows
 - transitions as editorial meaning
 - lint, check with annotated snapshots, preview approval, render, and human review
+- explicit dry-run or planning handoffs for release-track features that require hosted HeyGen services
 
 The in-course preview is a lightweight learning simulator for immediate visual feedback. The capstone uses the actual HyperFrames CLI and the starter pack in this folder.

@@ -302,9 +302,9 @@ function renderLanding() {
 
       <section class="release-track" aria-labelledby="release-title">
         <div class="release-heading">
-          <p>Current through Day 17</p>
+          <p>Current through Day 22</p>
           <h2 id="release-title">The HyperFrames release track</h2>
-          <span>Built from HeyGen’s published 30 Days of HyperFrames series. Day 8 was not published, so the track preserves the official numbering.</span>
+          <span>Built from the official 30 Days of HyperFrames series. Day 8 was not published, so the track preserves the official numbering. Hosted workflows are taught as explicit local handoffs, not simulated renders.</span>
         </div>
         <div class="release-rail">
           ${dailyModule.lessons.map((lesson) => `<button data-start-lesson="${lesson.id}">

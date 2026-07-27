@@ -30,7 +30,7 @@ test("server-renders the Hypercourse shell and metadata", async () => {
 
   const html = await response.text();
   assert.match(html, /<title>Hypercourse — Make videos that don’t look like slides<\/title>/i);
-  assert.match(html, /Practice HyperFrames through 50 hands-on local lessons/i);
+  assert.match(html, /Practice HyperFrames through 55 hands-on local lessons/i);
   assert.match(html, /href="\/assets\/[^"]+\.css"/i);
   assert.match(html, /id="app"/i);
   assert.match(html, /id="toast"/i);
@@ -92,7 +92,7 @@ test("keeps Hypercourse naming consistent and migrates existing progress", async
     [page, courseApp, courseData, standaloneHtml, rootReadme, courseReadme, design, starterReadme].join("\n"),
     /\bHYPERCOURSE\b/,
   );
-  assert.match(rootReadme, /50 focused notebook lessons/);
+  assert.match(rootReadme, /55 focused notebook lessons/);
 });
 
 test("includes a complete design.md and frame.md learning section", async () => {
@@ -112,7 +112,7 @@ test("includes a complete design.md and frame.md learning section", async () => 
       ["design-adherence", "2.4"],
     ],
   );
-  assert.equal(allLessons.length, 50);
+  assert.equal(allLessons.length, 55);
   assert.match(
     designModule.lessons.map(({ concept }) => concept).join("\n"),
     /frame\.md, then design\.md, then DESIGN\.md/,
@@ -180,10 +180,10 @@ test("teaches the current reusable composition system and CLI gate", async () =>
 test("gives every lesson a concept-specific experiment", async () => {
   const courseDataUrl = new URL("../public/course/course-data.js", import.meta.url);
   courseDataUrl.searchParams.set("practice", `${process.pid}-${Date.now()}`);
-  const { allLessons } = await import(courseDataUrl.href);
+  const { modules, allLessons } = await import(courseDataUrl.href);
 
-  assert.equal(allLessons.length, 50);
-  assert.equal(new Set(allLessons.map(({ id }) => id)).size, 50);
+  assert.equal(allLessons.length, 55);
+  assert.equal(new Set(allLessons.map(({ id }) => id)).size, 55);
   assert.ok(allLessons.every(({ objective, concept, exercise, deliverable, code, quiz }) =>
     objective && concept && exercise && deliverable && code && quiz?.question,
   ));
@@ -209,6 +209,16 @@ test("gives every lesson a concept-specific experiment", async () => {
   assert.match(byId["daily-prompt-anatomy"].code, /BRIEF\.md/);
   assert.match(byId["daily-keyframes"].code, /hyperframes keyframes/);
   assert.match(byId["daily-asset-libraries"].concept, /media-use/);
+  assert.deepEqual(
+    modules.find((module) => module.id === "daily-series").lessons.slice(-5).map(({ releaseDay }) => releaseDay),
+    [18, 19, 20, 21, 22],
+  );
+  assert.match(byId["daily-video-agent"].concept, /hosted HeyGen workflow/);
+  assert.match(byId["daily-alpha-compositing"].code, /remove-background/);
+  assert.match(byId["daily-claude-design-handoff"].concept, /optional upstream design surface/);
+  assert.match(byId["daily-render-boundary"].code, /--dry-run/);
+  assert.match(byId["daily-render-boundary"].concept, /never submits the render/);
+  assert.match(byId["daily-catalog-integration"].concept, /namespace generic ids/);
 });
 
 test("starts at zero and closes the first complete local loop", async () => {

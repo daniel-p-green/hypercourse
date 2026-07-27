@@ -2,7 +2,7 @@
 
 The OpenAI Sites release of **Hypercourse**, an interactive course for building professional videos with the local HyperFrames workflow.
 
-Hypercourse opens with a zero-assumption setup runway, then teaches professional HyperFrames video design through 50 focused notebook lessons. Each lesson follows the same active loop:
+Hypercourse opens with a zero-assumption setup runway, then teaches professional HyperFrames video design through 55 focused notebook lessons. Each lesson follows the same active loop:
 
 **Idea → Do → Run → Notice → Reflect → Check**
 
