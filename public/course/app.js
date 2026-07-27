@@ -2,7 +2,7 @@ import { modules, allLessons, officialExamples } from "./course-data.js";
 
 const STORAGE_KEY = "hypercourse-course-v1";
 const LEGACY_STORAGE_KEY = "framecraft-course-v1";
-const COURSE_UPDATED = "July 23, 2026";
+const COURSE_UPDATED = "July 27, 2026";
 const defaultState = { current: allLessons[0].id, complete: [], notes: {}, quiz: {}, code: {}, checks: {} };
 const PROOF_LESSONS = new Set([
   "zero-install",
@@ -95,7 +95,7 @@ function renderSiteFooter() {
       <a href="https://x.com/dgrreen" target="_blank" rel="noreferrer">X · @dgrreen</a>
       <a href="https://www.linkedin.com/in/danielpgreen" target="_blank" rel="noreferrer">LinkedIn</a>
     </nav>
-    <p>Last updated <time datetime="2026-07-23">${COURSE_UPDATED}</time></p>
+    <p>Last updated <time datetime="2026-07-27">${COURSE_UPDATED}</time></p>
   </footer>`;
 }
 

@@ -290,8 +290,8 @@ test("adds clear provenance, reusable copy controls, and dictation affordances",
   assert.match(courseApp, /Created by Daniel Green/);
   assert.match(courseApp, /https:\/\/x\.com\/dgrreen/);
   assert.match(courseApp, /https:\/\/www\.linkedin\.com\/in\/danielpgreen/);
-  assert.match(courseApp, /const COURSE_UPDATED = "July 23, 2026"/);
-  assert.match(courseApp, /Last updated <time datetime="2026-07-23">\$\{COURSE_UPDATED\}<\/time>/);
+  assert.match(courseApp, /const COURSE_UPDATED = "July 27, 2026"/);
+  assert.match(courseApp, /Last updated <time datetime="2026-07-27">\$\{COURSE_UPDATED\}<\/time>/);
   assert.ok((courseApp.match(/data-copy-target=/g) ?? []).length >= 3);
   assert.ok((courseApp.match(/data-dictate-target=/g) ?? []).length >= 2);
   assert.match(courseApp, /window\.SpeechRecognition \|\| window\.webkitSpeechRecognition/);
